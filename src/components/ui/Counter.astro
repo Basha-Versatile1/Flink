@@ -1,0 +1,64 @@
+---
+/**
+ * Animated counter — counts up when scrolled into view. Honours
+ * prefers-reduced-motion (jumps to final value). If `value` is 0, renders
+ * `display` verbatim (for non-numeric placeholders like "[N]+"). One shared
+ * vanilla-JS island handles every counter on the page.
+ */
+interface Props {
+  value: number;
+  display: string;
+  suffix?: string;
+}
+const { value, display, suffix = "" } = Astro.props;
+---
+
+<span class="counter" data-value={value} data-display={display} data-suffix={suffix}>
+  {value === 0 ? display : `0${suffix}`}
+</span>
+
+<script>
+  function initCounters() {
+    const els = document.querySelectorAll<HTMLElement>(".counter");
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    els.forEach((el) => {
+      const value = Number(el.dataset.value || "0");
+      const display = el.dataset.display || "";
+      const suffix = el.dataset.suffix || "";
+
+      if (value === 0) {
+        el.textContent = display;
+        return;
+      }
+      if (reduce) {
+        el.textContent = `${value}${suffix}`;
+        return;
+      }
+
+      const io = new IntersectionObserver(
+        (entries, obs) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            obs.unobserve(entry.target);
+            const duration = 1400;
+            let startTs: number | null = null;
+            const tick = (ts: number) => {
+              if (startTs === null) startTs = ts;
+              const progress = Math.min((ts - startTs) / duration, 1);
+              const eased = 1 - Math.pow(1 - progress, 3);
+              el.textContent = `${Math.round(eased * value)}${suffix}`;
+              if (progress < 1) requestAnimationFrame(tick);
+            };
+            requestAnimationFrame(tick);
+          });
+        },
+        { threshold: 0.4 },
+      );
+      io.observe(el);
+    });
+  }
+
+  initCounters();
+  document.addEventListener("astro:after-swap", initCounters);
+</script>

@@ -1,0 +1,124 @@
+---
+import Logo from "@/components/Logo.astro";
+import Icon from "@/components/Icon.astro";
+import StoreBadges from "@/components/ui/StoreBadges.astro";
+import { BRAND_NAME, COMPANY, SOCIAL } from "@/lib/config";
+import { SERVICES } from "@/data/services";
+import { LIVE_LOCALITIES, CITY } from "@/data/localities";
+import type { IconName } from "@/lib/icons";
+
+const COMPANY_LINKS = [
+  { label: "How it works", href: "/#how-it-works" },
+  { label: "Why Flink", href: "/#why-flink" },
+  { label: "In the app", href: "/#app" },
+  { label: "FAQ", href: "/#faq" },
+];
+
+const LEGAL_LINKS = [
+  { label: "Privacy Policy", href: "/legal/privacy" },
+  { label: "Terms & Conditions", href: "/legal/terms" },
+  { label: "Refund & Cancellation", href: "/legal/refund" },
+];
+
+const SOCIALS: { name: IconName; href: string; label: string }[] = [
+  { name: "instagram", href: SOCIAL.instagram, label: "Instagram" },
+  { name: "twitter", href: SOCIAL.twitter, label: "X (Twitter)" },
+  { name: "facebook", href: SOCIAL.facebook, label: "Facebook" },
+  { name: "linkedin", href: SOCIAL.linkedin, label: "LinkedIn" },
+];
+---
+
+<footer class="border-t border-hairline bg-surface-slate">
+  <div class="container-px py-14">
+    <div class="grid gap-10 lg:grid-cols-12">
+      <!-- Brand blurb + app badges -->
+      <div class="lg:col-span-4">
+        <Logo />
+        <p class="mt-4 max-w-xs text-sm text-ink-soft">
+          {BRAND_NAME} sends our own trained, background-verified cleaning professionals to your
+          door in about 10 minutes — booked entirely in the app.
+        </p>
+        <div class="mt-5">
+          <StoreBadges />
+        </div>
+      </div>
+
+      <!-- Link columns -->
+      <div class="grid grid-cols-2 gap-8 sm:grid-cols-4 lg:col-span-8">
+        <div>
+          <h3 class="text-sm font-semibold text-ink">Services</h3>
+          <ul class="mt-4 space-y-2.5">
+            {SERVICES.map((s) => (
+              <li><a href={`/${s.slug}/${CITY.slug}`} class="text-sm text-ink-soft transition-colors hover:text-primary-deep">{s.name}</a></li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-sm font-semibold text-ink">Areas</h3>
+          <ul class="mt-4 space-y-2.5">
+            {LIVE_LOCALITIES.map((l) => (
+              <li><a href="/#areas" class="text-sm text-ink-soft transition-colors hover:text-primary-deep">{l.name}</a></li>
+            ))}
+            <li><a href="/#areas" class="text-sm text-ink-soft transition-colors hover:text-primary-deep">Request your area →</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-sm font-semibold text-ink">Company</h3>
+          <ul class="mt-4 space-y-2.5">
+            {COMPANY_LINKS.map((l) => (
+              <li><a href={l.href} class="text-sm text-ink-soft transition-colors hover:text-primary-deep">{l.label}</a></li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-sm font-semibold text-ink">Legal</h3>
+          <ul class="mt-4 space-y-2.5">
+            {LEGAL_LINKS.map((l) => (
+              <li><a href={l.href} class="text-sm text-ink-soft transition-colors hover:text-primary-deep">{l.label}</a></li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="mt-12 flex flex-col items-start justify-between gap-6 border-t border-hairline pt-6 sm:flex-row sm:items-center">
+      <p class="text-sm text-ink-soft">
+        {/* TODO: client to supply registered company name + address */}
+        {COMPANY.legalName} · {CITY.name}, {CITY.state} · © 2026 {BRAND_NAME}. All rights reserved.
+      </p>
+      <ul class="flex items-center gap-3">
+        {
+          SOCIALS.map((s) => (
+            <li>
+              <a
+                href={s.href}
+                aria-label={s.label}
+                class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white text-ink-soft ring-1 ring-hairline transition-colors hover:text-primary-deep hover:ring-primary/40"
+              >
+                <Icon name={s.name} size={18} />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <!-- Maker signature -->
+    <div class="mt-8 border-t border-hairline pt-6 text-center">
+      <p class="text-sm text-ink-soft">
+        From the house of
+        <a
+          href="https://www.versatilecommerce.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="font-semibold text-primary-deep underline-offset-2 transition-colors hover:text-primary hover:underline"
+          >Versatile Commerce</a
+        >
+      </p>
+    </div>
+  </div>
+</footer>

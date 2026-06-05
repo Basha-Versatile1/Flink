@@ -1,0 +1,28 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import LegalPage from "@/components/LegalPage.astro";
+import { buildMeta } from "@/lib/seo";
+import { BRAND_NAME } from "@/lib/config";
+
+const meta = buildMeta({
+  title: "Refund & Cancellation Policy",
+  description: `How cancellations and refunds work with ${BRAND_NAME}.`,
+  path: "/legal/refund",
+});
+---
+
+<Layout meta={meta}>
+  <LegalPage title="Refund & Cancellation Policy" intro="How cancellations, rescheduling, and refunds are handled.">
+    {/* TODO: replace all placeholder sections with finalised refund policy. */}
+    <h2>1. Cancelling a booking</h2>
+    <p>Placeholder. Explain how and when a customer can cancel, and any free-cancellation window.</p>
+    <h2>2. Cancellation fees</h2>
+    <p>Placeholder. Detail any fees for late cancellations or no-shows.</p>
+    <h2>3. Rescheduling</h2>
+    <p>Placeholder. Describe how to reschedule a visit.</p>
+    <h2>4. Refunds</h2>
+    <p>Placeholder. Explain refund eligibility, method, and processing timelines (including wallet credit).</p>
+    <h2>5. Service quality concerns</h2>
+    <p>Placeholder. Describe how to raise an issue and request a resolution.</p>
+  </LegalPage>
+</Layout>

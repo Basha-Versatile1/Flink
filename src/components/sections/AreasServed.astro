@@ -1,0 +1,66 @@
+---
+import Section from "@/components/ui/Section.astro";
+import SectionHeading from "@/components/ui/SectionHeading.astro";
+import Icon from "@/components/Icon.astro";
+import Reveal from "@/components/ui/Reveal.astro";
+import Pill from "@/components/ui/Pill.astro";
+import LeadForm from "@/components/LeadForm.astro";
+import { LOCALITIES, CITY } from "@/data/localities";
+import { cn } from "@/lib/cn";
+---
+
+<Section id="areas" tone="white">
+  <SectionHeading
+    eyebrow="Areas we serve"
+    title="Flink across"
+    accent={CITY.name}
+    intro="We're starting in a few localities and growing fast. Don't see yours? Tell us — we prioritise the areas you ask for."
+  />
+
+  <div class="mt-12 grid gap-10 lg:grid-cols-12">
+    <ul class="grid gap-4 sm:grid-cols-2 lg:col-span-7">
+      {
+        LOCALITIES.map((loc, i) => {
+          const isLive = loc.status === "live";
+          return (
+            <Reveal as="li" delay={(i % 2) * 70}>
+              <div
+                class={cn(
+                  "flex h-full items-start justify-between gap-3 rounded-card p-5 ring-1",
+                  isLive ? "bg-surface-cyan ring-primary/15" : "bg-surface-slate ring-hairline",
+                )}
+              >
+                <div>
+                  <div class="flex items-center gap-2">
+                    <Icon name="map-pin" size={18} class={isLive ? "text-primary-deep" : "text-ink-soft/60"} />
+                    <h3 class="text-base font-semibold text-ink">{loc.name}</h3>
+                  </div>
+                  <p class="mt-1 text-xs text-ink-soft">{loc.city}</p>
+                  <div class="mt-3 flex flex-wrap gap-2">
+                    <Pill tone="neutral">{loc.prosCount}</Pill>
+                    {isLive && (
+                      <Pill tone="neutral"><Icon name="clock" size={13} />{loc.avgArrival}</Pill>
+                    )}
+                  </div>
+                </div>
+                <Pill tone={isLive ? "trust" : "neutral"}>{isLive ? "Live" : "Soon"}</Pill>
+              </div>
+            </Reveal>
+          );
+        })
+      }
+    </ul>
+
+    <Reveal delay={120} class="lg:col-span-5">
+      <div class="rounded-card bg-ink p-7 text-white shadow-lift">
+        <h3 class="text-xl text-white">Don&apos;t see your area?</h3>
+        <p class="mt-2 text-sm text-white/70">
+          Request Flink in your locality and we&apos;ll let you know the moment we go live near you.
+        </p>
+        <div class="mt-5">
+          <LeadForm />
+        </div>
+      </div>
+    </Reveal>
+  </div>
+</Section>

@@ -1,0 +1,83 @@
+---
+import Section from "@/components/ui/Section.astro";
+import SectionHeading from "@/components/ui/SectionHeading.astro";
+import Icon from "@/components/Icon.astro";
+import Reveal from "@/components/ui/Reveal.astro";
+import StoreBadges from "@/components/ui/StoreBadges.astro";
+import PhoneMockup from "@/components/PhoneMockup.astro";
+import Pill from "@/components/ui/Pill.astro";
+import { APP_FEATURES } from "@/data/site";
+import type { IconName } from "@/lib/icons";
+import { cn } from "@/lib/cn";
+
+// Multi-hue accent tiles for the app feature list.
+const TILE_TONES = [
+  "bg-surface-cyan text-primary-deep",
+  "bg-violet-50 text-violet-700",
+  "bg-amber-50 text-amber-700",
+  "bg-emerald-50 text-emerald-700",
+  "bg-rose-50 text-rose-700",
+  "bg-blue-50 text-blue-700",
+];
+---
+
+<Section id="app" tone="cyan">
+  <SectionHeading
+    eyebrow="In the app"
+    title="Everything you need,"
+    accent="in one tidy app"
+    intro="From frictionless login to live tracking and rewards — the Flink app keeps your home care effortless."
+  />
+
+  <div class="mt-12 grid items-center gap-12 lg:grid-cols-2">
+    <Reveal class="order-2 flex justify-center lg:order-1">
+      <PhoneMockup>
+        <!-- TODO: replace with real app screenshot -->
+        <div class="flex h-full flex-col gap-2 p-4">
+          <div class="flex items-center justify-between rounded-xl bg-white p-2.5 shadow-soft">
+            <span class="text-[11px] font-semibold text-ink">Wallet</span>
+            <span class="text-[11px] font-bold text-primary-deep">₹—</span>
+          </div>
+          <div class="rounded-xl bg-white p-2.5 shadow-soft">
+            <p class="text-[10px] font-semibold text-ink">Live tracking</p>
+            <div class="mt-1.5 h-16 rounded-lg bg-primary"></div>
+          </div>
+          <div class="grid grid-cols-3 gap-1.5">
+            {["Chat", "Call", "Re-book"].map((a) => (
+              <div class="rounded-lg bg-white/85 py-1.5 text-center text-[9px] font-medium text-ink-soft ring-1 ring-hairline">{a}</div>
+            ))}
+          </div>
+          <div class="mt-auto rounded-pill bg-primary py-2 text-center text-[11px] font-semibold text-white">Refer & earn</div>
+        </div>
+      </PhoneMockup>
+    </Reveal>
+
+    <div class="order-1 lg:order-2">
+      <ul class="grid gap-4 sm:grid-cols-2">
+        {
+          APP_FEATURES.map((feature, i) => (
+            <Reveal as="li" delay={(i % 2) * 70}>
+              <div class="flex gap-3 rounded-card bg-white/70 p-4 ring-1 ring-white/60 backdrop-blur">
+                <span class={cn("inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ring-1 ring-black/5", TILE_TONES[i % TILE_TONES.length])}>
+                  <Icon name={feature.icon as IconName} size={20} />
+                </span>
+                <div>
+                  <h3 class="text-sm font-semibold text-ink">{feature.title}</h3>
+                  <p class="mt-1 text-xs text-ink-soft">{feature.body}</p>
+                </div>
+              </div>
+            </Reveal>
+          ))
+        }
+      </ul>
+
+      <div class="mt-7 flex flex-col gap-3">
+        <Pill tone="trust">
+          <Icon name="sparkles" size={14} />
+          Loyalty points — coming soon
+        </Pill>
+        <StoreBadges />
+      </div>
+    </div>
+  </div>
+</Section>

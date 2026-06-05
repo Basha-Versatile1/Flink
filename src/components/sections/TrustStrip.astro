@@ -1,0 +1,36 @@
+---
+import { PRESS_LOGOS } from "@/data/site";
+
+/**
+ * "As featured in" strip — auto-scrolling marquee of greyed placeholder logos
+ * (pauses on hover, disabled under prefers-reduced-motion). Replace `PRESS_LOGOS`
+ * in data/site.ts with real coverage when available. TODO: real press logos.
+ */
+// Repeat the set so it fills the width; the -50% translate loops seamlessly
+// because the pattern repeats every PRESS_LOGOS.length items.
+const BASE = [...PRESS_LOGOS, ...PRESS_LOGOS, ...PRESS_LOGOS];
+const ROW = [...BASE, ...BASE];
+---
+
+<section aria-label="Featured in" class="border-b border-hairline bg-white">
+  <div class="container-px py-9">
+    <p class="text-center text-xs font-semibold uppercase tracking-wide text-ink-soft/60">
+      As featured in {/* TODO: real press coverage */}
+    </p>
+
+    <div class="marquee-mask mt-6 overflow-hidden">
+      <ul class="animate-marquee flex w-max items-center gap-10 pr-10">
+        {
+          ROW.map((label, i) => (
+            <li
+              aria-hidden={i >= PRESS_LOGOS.length ? "true" : undefined}
+              class="flex h-7 shrink-0 items-center text-sm font-semibold tracking-wide text-ink-soft opacity-50 grayscale"
+            >
+              <span class="rounded bg-surface-slate px-3 py-1 ring-1 ring-hairline">{label}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>

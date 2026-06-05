@@ -1,0 +1,52 @@
+---
+import { cn } from "@/lib/cn";
+
+/**
+ * Section heading: a pill "eyebrow" chip, a bold tight title with an optional
+ * accent keyword (cyan), and an intro line. `onDark` flips colours for
+ * near-black sections (vastyn-style).
+ */
+interface Props {
+  eyebrow?: string;
+  title: string;
+  /** Appended to the title, rendered in the cyan accent colour. */
+  accent?: string;
+  intro?: string;
+  align?: "center" | "left";
+  onDark?: boolean;
+}
+
+const { eyebrow, title, accent, intro, align = "center", onDark = false } = Astro.props;
+---
+
+<div class={cn("max-w-2xl", align === "center" ? "mx-auto text-center" : "text-left")}>
+  {
+    eyebrow && (
+      <span
+        class={cn(
+          "mb-4 inline-flex items-center gap-1.5 rounded-pill border px-3 py-1 text-xs font-semibold uppercase tracking-wide",
+          onDark
+            ? "border-white/15 bg-white/5 text-primary-light"
+            : "border-hairline bg-white text-primary-deep",
+        )}
+      >
+        <span class={cn("h-1.5 w-1.5 rounded-full", onDark ? "bg-primary-light" : "bg-primary")} />
+        {eyebrow}
+      </span>
+    )
+  }
+  <h2
+    class={cn(
+      "text-3xl font-bold tracking-tight sm:text-4xl",
+      onDark ? "text-white" : "text-ink",
+    )}
+  >
+    {title}
+    {accent && <span class={onDark ? "text-primary-light" : "text-primary-deep"}> {accent}</span>}
+  </h2>
+  {
+    intro && (
+      <p class={cn("mt-4 text-lg", onDark ? "text-white/65" : "text-ink-soft")}>{intro}</p>
+    )
+  }
+</div>

@@ -1,0 +1,84 @@
+---
+import Pill from "@/components/ui/Pill.astro";
+import StoreBadges from "@/components/ui/StoreBadges.astro";
+import Icon from "@/components/Icon.astro";
+import Reveal from "@/components/ui/Reveal.astro";
+import { LIVE_LOCALITIES } from "@/data/localities";
+import { PRIMARY_CITY } from "@/lib/config";
+
+const liveNames = LIVE_LOCALITIES.map((l) => l.name).join(" & ");
+---
+
+<section class="relative overflow-hidden border-b border-hairline bg-surface-cream">
+  <!-- soft warm-to-cyan washes -->
+  <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 h-80 bg-surface-cyan/40"></div>
+  <div
+    aria-hidden="true"
+    class="animate-floaty pointer-events-none absolute right-[-6rem] top-[-4rem] h-80 w-80 rounded-full bg-primary/30 blur-3xl"
+  >
+  </div>
+
+  <div class="container-px relative grid items-center gap-12 py-16 sm:py-20 lg:grid-cols-2 lg:gap-8 lg:py-24">
+    <!-- Left: copy -->
+    <div class="max-w-xl">
+      <Reveal>
+        <Pill tone="cyan">
+          <span class="inline-block h-2 w-2 rounded-full bg-trust"></span>
+          Now live in {liveNames}, {PRIMARY_CITY}
+        </Pill>
+      </Reveal>
+
+      <Reveal delay={60}>
+        <h1 class="mt-6 text-[2.6rem] font-bold leading-[1.05] tracking-tight sm:text-6xl">
+          Trusted house help,<br class="hidden sm:block" />
+          <span class="text-primary-deep"> in minutes</span>.
+        </h1>
+      </Reveal>
+
+      <Reveal delay={120}>
+        <p class="mt-5 text-lg text-ink-soft">
+          Book trained, background-verified Flink professionals for cleaning, dishwashing, mopping
+          and more — at your home, exactly when you need them. Transparent pricing, no
+          subscriptions, all from one simple app.
+        </p>
+      </Reveal>
+
+      <Reveal delay={180}>
+        <div class="mt-7">
+          <StoreBadges />
+        </div>
+      </Reveal>
+
+      <Reveal delay={280}>
+        <div class="mt-7 flex flex-wrap items-center gap-x-3 gap-y-2">
+          <span class="text-sm font-semibold text-ink">Live in</span>
+          {LIVE_LOCALITIES.map((l) => (
+            <Pill tone="neutral"><Icon name="map-pin" size={14} />{l.name}</Pill>
+          ))}
+        </div>
+      </Reveal>
+    </div>
+
+    <!-- Right: hero photo of a Flink professional.
+         TODO: replace with final licensed/shot photography when available. -->
+    <Reveal delay={160} class="relative">
+      <div
+        aria-hidden="true"
+        class="pointer-events-none absolute inset-0 mx-auto max-w-md rounded-[3rem] bg-primary/35 blur-3xl"
+      >
+      </div>
+      <picture class="relative mx-auto block w-full max-w-md">
+        <source srcset="/hero-professional.webp" type="image/webp" />
+        <img
+          src="/hero-professional.jpg"
+          alt="A friendly, trained and background-verified Flink cleaning professional in a cyan Flink polo"
+          width="832"
+          height="1010"
+          class="w-full rounded-[2rem] object-cover shadow-lift ring-1 ring-hairline"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </picture>
+    </Reveal>
+  </div>
+</section>

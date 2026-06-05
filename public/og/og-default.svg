@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Placeholder Open Graph / Twitter card image (1200x630).
+     TODO: replace with final branded OG artwork before launch. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ECFEFF"/>
+      <stop offset="1" stop-color="#FFFFFF"/>
+    </linearGradient>
+    <linearGradient id="mark" x1="0" y1="0" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#06B6D4"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="1040" cy="120" r="260" fill="#06B6D4" opacity="0.08"/>
+  <g transform="translate(96, 150)">
+    <rect width="96" height="96" rx="26" fill="url(#mark)"/>
+    <path d="M48 22s21 21.6 21 36a21 21 0 1 1-42 0c0-14.4 21-36 21-36Z" fill="#fff" fill-opacity="0.95"/>
+    <text x="120" y="68" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="64" font-weight="700" fill="#0F172A">Flink</text>
+  </g>
+  <text x="96" y="360" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="72" font-weight="800" fill="#0F172A">A spotless home,</text>
+  <text x="96" y="448" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="72" font-weight="800" fill="#0891B2">in about 10 minutes.</text>
+  <text x="96" y="528" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="34" font-weight="500" fill="#334155">Trained, background-verified cleaning pros in Hyderabad.</text>
+</svg>

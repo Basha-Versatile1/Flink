@@ -1,0 +1,54 @@
+---
+import { PLAY_URL, APPSTORE_URL, BRAND_NAME } from "@/lib/config";
+import { cn } from "@/lib/cn";
+
+/**
+ * App store badge.
+ *
+ * NOTE: clean, original-styled placeholder so nothing copyrighted ships by
+ * default. Before launch, swap in Apple's / Google's OFFICIAL badge artwork
+ * (their brand guidelines require the official assets); keep the href wired to
+ * PLAY_URL / APPSTORE_URL.
+ */
+interface Props {
+  store: "play" | "appstore";
+  class?: string;
+}
+
+const { store, class: className } = Astro.props;
+
+const COPY = {
+  play: { top: "Get it on", bottom: "Google Play", href: PLAY_URL },
+  appstore: { top: "Download on the", bottom: "App Store", href: APPSTORE_URL },
+} as const;
+
+const { top, bottom, href } = COPY[store];
+---
+
+<a
+  href={href}
+  aria-label={`Download the ${BRAND_NAME} app — ${bottom}`}
+  class={cn(
+    "inline-flex items-center gap-3 rounded-xl bg-primary px-4 py-2.5 text-ink shadow-[0_0_20px_-2px_rgba(6,182,212,0.75)] ring-1 ring-primary/40 transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-hover hover:shadow-[0_0_28px_0_rgba(6,182,212,0.95)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
+    className,
+  )}
+>
+  {
+    store === "appstore" ? (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M16.4 12.6c0-2 1.6-3 1.7-3a3.7 3.7 0 0 0-2.9-1.6c-1.2-.1-2.4.7-3 .7s-1.6-.7-2.6-.7A4 4 0 0 0 6.3 10c-1.4 2.5-.4 6.2 1 8.2.7 1 1.5 2.1 2.6 2 1-.04 1.4-.66 2.6-.66s1.6.66 2.6.64c1.1-.02 1.8-1 2.5-2a8.8 8.8 0 0 0 1.1-2.3c-.03-.01-2.2-.85-2.2-3.32ZM14.5 6.3c.55-.67.93-1.6.83-2.53-.8.03-1.78.53-2.36 1.2-.5.6-.96 1.55-.84 2.46.9.07 1.81-.46 2.37-1.13Z" />
+      </svg>
+    ) : (
+      <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M3.6 2.3 13.5 12 3.6 21.7c-.36-.2-.6-.6-.6-1.1V3.4c0-.5.24-.9.6-1.1Z" fill="#0F172A" />
+        <path d="m16.3 9.2 2.9 1.7c.9.5.9 1.7 0 2.2l-2.9 1.7L13.5 12l2.8-2.8Z" fill="#0F172A" fill-opacity="0.85" />
+        <path d="M3.6 2.3c.3-.18.7-.2 1.1.02l11.6 6.88L13.5 12 3.6 2.3Z" fill="#0F172A" fill-opacity="0.95" />
+        <path d="M4.7 21.66c-.4.22-.8.2-1.1.02L13.5 12l2.8 2.8L4.7 21.66Z" fill="#0F172A" fill-opacity="0.7" />
+      </svg>
+    )
+  }
+  <span class="flex flex-col leading-tight">
+    <span class="text-[10px] uppercase tracking-wide text-ink/70">{top}</span>
+    <span class="text-sm font-semibold">{bottom}</span>
+  </span>
+</a>

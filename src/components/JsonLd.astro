@@ -1,0 +1,13 @@
+---
+/**
+ * Renders a JSON-LD script tag. Pass any schema.org object via `data`.
+ * Data is static + trusted (built from our own data files in src/lib/jsonld.ts).
+ */
+interface Props {
+  data: object;
+}
+const { data } = Astro.props;
+const json = JSON.stringify(data);
+---
+
+<script type="application/ld+json" is:inline set:html={json} />

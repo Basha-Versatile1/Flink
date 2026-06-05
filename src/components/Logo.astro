@@ -1,0 +1,22 @@
+---
+import { BRAND_NAME } from "@/lib/config";
+import { cn } from "@/lib/cn";
+
+/**
+ * Flink wordmark — brand name only (text logo).
+ * TODO: add the final logo asset alongside the wordmark when design is signed off.
+ */
+interface Props {
+  class?: string;
+  invert?: boolean;
+}
+const { class: className, invert = false } = Astro.props;
+---
+
+<a
+  href="/"
+  aria-label={`${BRAND_NAME} — home`}
+  class={cn("inline-flex items-center gap-2 font-semibold tracking-tight", className)}
+>
+  <span class={cn("text-[35px]", invert ? "text-white" : "text-primary")}>{BRAND_NAME}</span>
+</a>

@@ -1,0 +1,154 @@
+---
+import Button from "@/components/ui/Button.astro";
+import Icon from "@/components/Icon.astro";
+import { LEAD_ENDPOINT } from "@/lib/config";
+import { LIVE_LOCALITIES } from "@/data/localities";
+import { cn } from "@/lib/cn";
+
+/**
+ * Locality lead-capture form. Posts to PUBLIC_LEAD_ENDPOINT if configured;
+ * otherwise a no-op stub (logs to console + simulates success) — works with no
+ * backend in v1. All logic is a tiny vanilla-JS island in the script below.
+ *
+ * Variants:
+ *  - "default": full form (name, phone, locality) on a light surface
+ *  - "onDark":  full form styled for a coloured/dark band
+ *  - "compact": single inline phone field + button (used in the hero)
+ */
+interface Props {
+  variant?: "default" | "onDark" | "compact";
+  class?: string;
+}
+const { variant = "default", class: className } = Astro.props;
+const onDark = variant === "onDark";
+const compact = variant === "compact";
+
+const inputCls = cn(
+  "w-full rounded-xl px-4 py-3 text-sm outline-none transition focus:ring-2 focus:ring-primary",
+  onDark
+    ? "bg-white/95 text-ink placeholder:text-ink-soft/60"
+    : "bg-white text-ink ring-1 ring-hairline placeholder:text-ink-soft/60",
+);
+---
+
+<div class={cn("lead-form-root", className)} data-endpoint={LEAD_ENDPOINT} data-ondark={onDark ? "1" : "0"}>
+  {
+    compact ? (
+      <form class="lead-form flex w-full max-w-md flex-col gap-2 sm:flex-row" novalidate>
+        <label class="sr-only" for="lead-phone-compact">Phone number</label>
+        <input
+          id="lead-phone-compact"
+          name="phone"
+          type="tel"
+          autocomplete="tel"
+          inputmode="tel"
+          placeholder="Enter your phone number"
+          required
+          class="w-full rounded-pill bg-white px-5 py-3 text-sm text-ink outline-none ring-1 ring-hairline transition placeholder:text-ink-soft/60 focus:ring-2 focus:ring-primary"
+        />
+        <input type="hidden" name="locality" value="Hero — area requested" />
+        <Button type="submit" size="md" class="lead-submit shrink-0 whitespace-nowrap">Request Flink</Button>
+      </form>
+    ) : (
+      <form class="lead-form grid gap-3 sm:grid-cols-2" novalidate>
+        <label class="sr-only" for={`lead-name-${variant}`}>Your name</label>
+        <input id={`lead-name-${variant}`} name="name" type="text" autocomplete="name" placeholder="Your name" required class={inputCls} />
+
+        <label class="sr-only" for={`lead-phone-${variant}`}>Phone number</label>
+        <input id={`lead-phone-${variant}`} name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="Phone number" required class={inputCls} />
+
+        <label class="sr-only" for={`lead-locality-${variant}`}>Your locality</label>
+        <select id={`lead-locality-${variant}`} name="locality" required class={cn(inputCls, "sm:col-span-2")}>
+          <option value="" disabled selected>Select or type your locality…</option>
+          {LIVE_LOCALITIES.map((l) => <option value={l.name}>{l.name}, {l.city}</option>)}
+          <option value="Other">Another area in Hyderabad</option>
+        </select>
+
+        <div class="sm:col-span-2">
+          <Button type="submit" size="lg" variant={onDark ? "secondary" : "primary"} class="lead-submit w-full sm:w-auto">
+            Request Flink in my area
+          </Button>
+        </div>
+      </form>
+    )
+  }
+
+  <p class={cn("lead-error mt-2 hidden text-sm", onDark ? "text-white" : "text-red-600")} role="alert">
+    Please add a valid phone number{compact ? "" : ", name and locality"}, then try again.
+  </p>
+  {
+    !compact && (
+      <p class={cn("mt-2 text-xs", onDark ? "text-white/70" : "text-ink-soft/70")}>
+        We&apos;ll only use your details to tell you when Flink reaches your area.
+      </p>
+    )
+  }
+
+  <div class={cn("lead-success hidden items-center gap-3 rounded-card p-5", onDark ? "bg-white/15 text-white" : "bg-trust/10 text-ink")} role="status">
+    <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-trust text-white">
+      <Icon name="check" size={20} />
+    </span>
+    <p class="text-sm font-medium">
+      Thanks! We&apos;ve noted your interest and will reach out as soon as Flink is live near you.
+    </p>
+  </div>
+</div>
+
+<script>
+  // Vanilla-JS island — no framework runtime. Initialises every lead form on the page.
+  function initLeadForms() {
+    document.querySelectorAll<HTMLElement>(".lead-form-root").forEach((root) => {
+      const form = root.querySelector<HTMLFormElement>(".lead-form");
+      const success = root.querySelector<HTMLElement>(".lead-success");
+      const errorEl = root.querySelector<HTMLElement>(".lead-error");
+      const submit = root.querySelector<HTMLButtonElement>(".lead-submit");
+      const endpoint = root.dataset.endpoint || "";
+      if (!form || !success || !submit) return;
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        errorEl?.classList.add("hidden");
+
+        // Variant-agnostic validation: every rendered [required] field must be filled.
+        const required = Array.from(form.querySelectorAll<HTMLInputElement | HTMLSelectElement>("[required]"));
+        const invalid = required.some((f) => !f.value.trim());
+        if (invalid) {
+          errorEl?.classList.remove("hidden");
+          return;
+        }
+
+        const data = Object.fromEntries(new FormData(form).entries());
+        submit.disabled = true;
+        const original = submit.textContent;
+        submit.textContent = "Sending…";
+
+        try {
+          if (endpoint) {
+            const res = await fetch(endpoint, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(data),
+            });
+            if (!res.ok) throw new Error("Request failed");
+          } else {
+            // No backend configured (v1). Stub: log + simulate latency.
+            // TODO: set PUBLIC_LEAD_ENDPOINT to wire this to a real CRM/sheet.
+            console.info("[Flink lead — stub, no endpoint configured]", data);
+            await new Promise((r) => setTimeout(r, 600));
+          }
+          form.classList.add("hidden");
+          errorEl?.classList.add("hidden");
+          success.classList.remove("hidden");
+          success.classList.add("flex");
+        } catch {
+          errorEl?.classList.remove("hidden");
+          submit.disabled = false;
+          submit.textContent = original;
+        }
+      });
+    });
+  }
+
+  initLeadForms();
+  document.addEventListener("astro:after-swap", initLeadForms);
+</script>

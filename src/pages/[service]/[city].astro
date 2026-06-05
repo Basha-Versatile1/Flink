@@ -1,0 +1,175 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import JsonLd from "@/components/JsonLd.astro";
+import Section from "@/components/ui/Section.astro";
+import SectionHeading from "@/components/ui/SectionHeading.astro";
+import Button from "@/components/ui/Button.astro";
+import Pill from "@/components/ui/Pill.astro";
+import Icon from "@/components/Icon.astro";
+import Card from "@/components/ui/Card.astro";
+import Reveal from "@/components/ui/Reveal.astro";
+import StoreBadges from "@/components/ui/StoreBadges.astro";
+import HowItWorks from "@/components/sections/HowItWorks.astro";
+import Faq from "@/components/sections/Faq.astro";
+import ClosingCta from "@/components/sections/ClosingCta.astro";
+import { SERVICES, type Service } from "@/data/services";
+import { CITY_SLUGS, LIVE_LOCALITIES } from "@/data/localities";
+import { buildMeta } from "@/lib/seo";
+import { capitalize } from "@/lib/text";
+import { localBusinessJsonLd, faqJsonLd, serviceJsonLd } from "@/lib/jsonld";
+import type { IconName } from "@/lib/icons";
+
+/**
+ * Pre-render every (service × supported city) combination at build time (SSG).
+ * Adding a service in data/services.ts or a city in data/localities.ts extends
+ * coverage automatically.
+ */
+export function getStaticPaths() {
+  return SERVICES.flatMap((service) =>
+    CITY_SLUGS.map((city) => ({
+      params: { service: service.slug, city },
+      props: { service },
+    })),
+  );
+}
+
+interface Props {
+  service: Service;
+}
+const { service } = Astro.props;
+const { city } = Astro.params;
+const cityName = capitalize(city!);
+const path = `/${service.slug}/${city}`;
+
+const meta = buildMeta({
+  title: `${service.name} in ${cityName} | Book in ~10 Min`,
+  description: `${service.tagline} Book ${service.name.toLowerCase()} in ${cityName} with a trained, background-verified Flink professional — transparent pricing, no subscriptions.`,
+  path,
+});
+---
+
+<Layout meta={meta}>
+  <JsonLd slot="head" data={localBusinessJsonLd()} />
+  <JsonLd slot="head" data={faqJsonLd()} />
+  <JsonLd
+    slot="head"
+    data={serviceJsonLd({ serviceName: service.name, description: service.description, cityName, path })}
+  />
+
+  <!-- Hero -->
+  <section class="relative overflow-hidden bg-gradient-to-b from-surface-cyan to-white">
+    <div class="container-px relative grid items-center gap-12 py-14 sm:py-20 lg:grid-cols-2">
+      <div class="max-w-xl">
+        <nav aria-label="Breadcrumb" class="mb-4 text-sm text-ink-soft">
+          <ol class="flex flex-wrap items-center gap-1.5">
+            <li><a href="/" class="hover:text-primary-deep">Home</a></li>
+            <li aria-hidden="true">/</li>
+            <li><a href="/#services" class="hover:text-primary-deep">Services</a></li>
+            <li aria-hidden="true">/</li>
+            <li class="font-medium text-ink" aria-current="page">{service.name}</li>
+          </ol>
+        </nav>
+
+        <Pill tone="cyan"><Icon name="map-pin" size={14} />Available in {cityName}</Pill>
+
+        <h1 class="mt-5 text-4xl leading-tight sm:text-5xl">
+          {service.name} in <span class="text-primary-deep">{cityName}</span>
+        </h1>
+        <p class="mt-5 text-lg text-ink-soft">{service.description}</p>
+
+        <div class="mt-7 flex flex-wrap gap-3">
+          <Pill tone="neutral"><Icon name="clock" size={14} />{service.typicalDuration}</Pill>
+          <Pill tone="neutral">{service.pricePerHour} · {service.pricePerTask}</Pill>
+          <Pill tone="trust"><Icon name="shield" size={14} />Trained & verified pros</Pill>
+        </div>
+
+        <div class="mt-8"><StoreBadges /></div>
+      </div>
+
+      <Reveal class="flex justify-center">
+        <!-- TODO: replace with real service photography/illustration -->
+        <div class="flex aspect-square w-full max-w-sm items-center justify-center rounded-card bg-surface-cyan text-primary-deep ring-1 ring-primary/15">
+          <div class="text-center">
+            <Icon name={service.icon as IconName} size={72} class="mx-auto" />
+            <p class="mt-4 text-sm font-medium text-primary-deep/70">{service.name}</p>
+          </div>
+        </div>
+      </Reveal>
+    </div>
+  </section>
+
+  <!-- What's included / excluded -->
+  <Section tone="white">
+    <SectionHeading
+      eyebrow="Scope of work"
+      title={`What a ${service.name.toLowerCase()} visit covers`}
+      intro="Clear scope, no surprises — here's exactly what your professional will and won't do."
+    />
+    <div class="mx-auto mt-12 grid max-w-4xl gap-5 md:grid-cols-2">
+      <Card>
+        <h3 class="flex items-center gap-2 text-lg">
+          <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-trust text-white">
+            <Icon name="check" size={16} />
+          </span>
+          Included
+        </h3>
+        <ul class="mt-5 space-y-3">
+          {service.includes.map((item) => (
+            <li class="flex items-start gap-3 text-sm text-ink-soft">
+              <Icon name="check" size={18} class="mt-0.5 shrink-0 text-trust" />{item}
+            </li>
+          ))}
+        </ul>
+      </Card>
+      <Card>
+        <h3 class="flex items-center gap-2 text-lg">
+          <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-ink-soft/80 text-white">
+            <Icon name="x" size={16} />
+          </span>
+          Not included
+        </h3>
+        <ul class="mt-5 space-y-3">
+          {service.excludes.map((item) => (
+            <li class="flex items-start gap-3 text-sm text-ink-soft">
+              <Icon name="x" size={18} class="mt-0.5 shrink-0 text-ink-soft/60" />{item}
+            </li>
+          ))}
+        </ul>
+      </Card>
+    </div>
+
+    <!-- Pricing teaser -->
+    <div class="mx-auto mt-8 flex max-w-4xl flex-col items-start justify-between gap-4 rounded-card bg-surface-cyan p-6 ring-1 ring-primary/15 sm:flex-row sm:items-center">
+      <div>
+        <p class="text-sm font-semibold uppercase tracking-wide text-primary-deep">Transparent pricing</p>
+        <p class="mt-1 text-2xl font-bold text-ink">
+          {/* TODO: final pricing */}
+          Starting at {service.pricePerHour}<span class="text-base font-medium text-ink-soft"> or {service.pricePerTask}</span>
+        </p>
+        <p class="mt-1 text-sm text-ink-soft">No subscriptions, no hidden fees. See the exact rate before you book.</p>
+      </div>
+      <Button href="/#download" size="lg">Book in the app</Button>
+    </div>
+  </Section>
+
+  <!-- Coverage -->
+  <Section tone="slate">
+    <SectionHeading
+      eyebrow="Coverage"
+      title={`${service.name} near you in ${cityName}`}
+      intro="Live in these localities now, with more of the city coming soon."
+    />
+    <ul class="mx-auto mt-10 flex max-w-3xl flex-wrap justify-center gap-3">
+      {LIVE_LOCALITIES.map((l) => (
+        <li><Pill tone="cyan"><Icon name="map-pin" size={14} />{l.name}</Pill></li>
+      ))}
+      <li>
+        <a href="/#areas"><Pill tone="neutral">Don&apos;t see your area? Request Flink →</Pill></a>
+      </li>
+    </ul>
+  </Section>
+
+  <HowItWorks />
+  <Faq />
+  <ClosingCta />
+</Layout>

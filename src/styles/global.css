@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    scroll-behavior: smooth;
+  }
+
+  /* Respect users who prefer reduced motion — disable smooth scroll + animations. */
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    @apply bg-surface text-ink font-sans antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Visible, consistent focus ring for keyboard users (a11y). */
+  :focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-white;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply text-ink font-semibold tracking-tight;
+    text-wrap: balance;
+  }
+}
+
+@layer components {
+  /* Centered page container with responsive gutters. */
+  .container-px {
+    @apply mx-auto w-full max-w-container px-5 sm:px-6 lg:px-8;
+  }
+
+  /* Skip link, visually hidden until focused. */
+  .skip-link {
+    @apply sr-only;
+  }
+  .skip-link:focus {
+    @apply not-sr-only fixed left-4 top-4 z-[100] rounded-pill bg-primary px-4 py-2 text-sm font-semibold text-white shadow-soft;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-cyan-gradient bg-clip-text text-transparent;
+  }
+
+  /* ---- Logo marquee (auto-scroll, pauses on hover, reduced-motion safe) ---- */
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  .animate-marquee {
+    animation: marquee 32s linear infinite;
+  }
+  .marquee-mask:hover .animate-marquee {
+    animation-play-state: paused;
+  }
+  .marquee-mask {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 8%,
+      #000 92%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 8%,
+      #000 92%,
+      transparent
+    );
+  }
+
+  /* ---- Soft floating glow (hero) ---- */
+  @keyframes floaty {
+    0%,
+    100% {
+      transform: translate(-50%, 0) scale(1);
+      opacity: 0.9;
+    }
+    50% {
+      transform: translate(-50%, 12px) scale(1.05);
+      opacity: 1;
+    }
+  }
+  .animate-floaty {
+    animation: floaty 9s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-marquee,
+    .animate-floaty {
+      animation: none !important;
+    }
+  }
+}
+
+/* ---- Scroll-reveal (vanilla, JS adds .is-visible; reduced-motion shows instantly) ---- */
+@layer utilities {
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.7s ease-out,
+      transform 0.7s ease-out;
+    will-change: opacity, transform;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+}

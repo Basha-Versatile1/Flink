@@ -1,0 +1,70 @@
+---
+import StoreBadges from "@/components/ui/StoreBadges.astro";
+import LeadForm from "@/components/LeadForm.astro";
+import Reveal from "@/components/ui/Reveal.astro";
+import PhoneMockup from "@/components/PhoneMockup.astro";
+import Icon from "@/components/Icon.astro";
+
+const SCREENS = [
+  { title: "Choose a service", sub: "20+ cleaning tasks" },
+  { title: "Pro on the way", sub: "Arriving ~9 min" },
+  { title: "Spotless. Re-book?", sub: "One-tap repeat" },
+];
+---
+
+<section id="download" class="scroll-mt-24 overflow-hidden border-t border-hairline bg-gradient-to-b from-surface-cyan to-white">
+  <div class="container-px py-16 sm:py-20 lg:py-24">
+    <!-- Fanned phones -->
+    <Reveal>
+      <div aria-hidden="true" class="relative mx-auto mb-12 hidden h-72 max-w-xl items-end justify-center sm:flex">
+        {
+          SCREENS.map((screen, i) => {
+            const pos = ["-rotate-[10deg] -translate-x-24 translate-y-6 z-0", "z-20", "rotate-[10deg] translate-x-24 translate-y-6 z-0"];
+            return (
+              <div class={`absolute ${pos[i]}`}>
+                <PhoneMockup class={`!w-[180px] ${i === 1 ? "shadow-lift" : "opacity-95"}`}>
+                  <div class="flex h-full flex-col gap-2 p-3">
+                    <div class="rounded-lg bg-white p-2 shadow-soft">
+                      <p class="text-[10px] font-semibold text-ink">{screen.title}</p>
+                      <p class="text-[8px] text-ink-soft">{screen.sub}</p>
+                    </div>
+                    <div class="flex-1 rounded-lg bg-primary/15"></div>
+                    <div class="rounded-pill bg-primary py-1.5 text-center text-[10px] font-semibold text-white">Open Flink</div>
+                  </div>
+                </PhoneMockup>
+              </div>
+            );
+          })
+        }
+      </div>
+    </Reveal>
+
+    <div class="mx-auto max-w-2xl text-center">
+      <Reveal>
+        <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">
+          A spotless home <span class="text-primary-deep">in minutes</span>.
+        </h2>
+        <p class="mx-auto mt-4 max-w-lg text-lg text-ink-soft">
+          Download the Flink app to book a trained professional now — or leave your details and
+          we&apos;ll reach out when we&apos;re live near you.
+        </p>
+        <div class="mt-7 flex justify-center">
+          <StoreBadges />
+        </div>
+      </Reveal>
+
+      <Reveal delay={100}>
+        <div class="mt-8 rounded-card border border-hairline bg-white p-6 text-left shadow-soft sm:p-8">
+          <h3 class="flex items-center gap-2 text-lg font-semibold text-ink">
+            <Icon name="map-pin" size={20} class="text-primary-deep" />
+            Request Flink in your area
+          </h3>
+          <p class="mt-1 text-sm text-ink-soft">Name, phone, and locality — that&apos;s all we need.</p>
+          <div class="mt-5">
+            <LeadForm />
+          </div>
+        </div>
+      </Reveal>
+    </div>
+  </div>
+</section>

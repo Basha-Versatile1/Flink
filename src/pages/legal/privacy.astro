@@ -1,0 +1,30 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import LegalPage from "@/components/LegalPage.astro";
+import { buildMeta } from "@/lib/seo";
+import { BRAND_NAME } from "@/lib/config";
+
+const meta = buildMeta({
+  title: "Privacy Policy",
+  description: `How ${BRAND_NAME} collects, uses, and protects your personal data.`,
+  path: "/legal/privacy",
+});
+---
+
+<Layout meta={meta}>
+  <LegalPage title="Privacy Policy" intro="How we handle your information when you use Flink.">
+    {/* TODO: replace all placeholder sections with finalised privacy policy. */}
+    <h2>1. Information we collect</h2>
+    <p>Placeholder. Describe the data collected (e.g. name, phone number, address, booking history, device data) and how it is gathered.</p>
+    <h2>2. How we use your information</h2>
+    <p>Placeholder. Explain processing purposes — fulfilling bookings, support, safety, and service improvement.</p>
+    <h2>3. Sharing &amp; disclosure</h2>
+    <p>Placeholder. Detail any third parties and the basis for sharing.</p>
+    <h2>4. Data retention &amp; security</h2>
+    <p>Placeholder. Describe retention periods and security measures.</p>
+    <h2>5. Your rights</h2>
+    <p>Placeholder. Outline access, correction, and deletion rights.</p>
+    <h2>6. Contact</h2>
+    <p>Placeholder. Provide the data-protection contact details.</p>
+  </LegalPage>
+</Layout>

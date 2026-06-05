@@ -1,0 +1,45 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import JsonLd from "@/components/JsonLd.astro";
+import Hero from "@/components/sections/Hero.astro";
+import TrustStrip from "@/components/sections/TrustStrip.astro";
+import StatsBand from "@/components/sections/StatsBand.astro";
+import ServicesGrid from "@/components/sections/ServicesGrid.astro";
+import HowItWorks from "@/components/sections/HowItWorks.astro";
+import WhyFlink from "@/components/sections/WhyFlink.astro";
+import AppShowcase from "@/components/sections/AppShowcase.astro";
+import IncludedComparison from "@/components/sections/IncludedComparison.astro";
+import Pricing from "@/components/sections/Pricing.astro";
+import AreasServed from "@/components/sections/AreasServed.astro";
+import Testimonials from "@/components/sections/Testimonials.astro";
+import Faq from "@/components/sections/Faq.astro";
+import ClosingCta from "@/components/sections/ClosingCta.astro";
+import { buildMeta } from "@/lib/seo";
+import { BRAND_NAME, PRIMARY_CITY } from "@/lib/config";
+import { localBusinessJsonLd, faqJsonLd } from "@/lib/jsonld";
+
+const meta = buildMeta({
+  title: BRAND_NAME,
+  description: `${BRAND_NAME} sends trained, background-verified cleaning professionals to your door in about 10 minutes in ${PRIMARY_CITY}. Transparent hourly & per-task pricing — no subscriptions.`,
+  path: "/",
+});
+---
+
+<Layout meta={meta}>
+  <JsonLd slot="head" data={localBusinessJsonLd()} />
+  <JsonLd slot="head" data={faqJsonLd()} />
+
+  <Hero />
+  <TrustStrip />
+  <StatsBand />
+  <ServicesGrid />
+  <HowItWorks />
+  <WhyFlink />
+  <AppShowcase />
+  <IncludedComparison />
+  <Pricing />
+  <AreasServed />
+  <Testimonials />
+  <Faq />
+  <ClosingCta />
+</Layout>

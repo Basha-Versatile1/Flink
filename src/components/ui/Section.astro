@@ -1,0 +1,29 @@
+---
+import { cn } from "@/lib/cn";
+
+interface Props {
+  id?: string;
+  tone?: "white" | "cyan" | "slate" | "dark";
+  class?: string;
+  ariaLabel?: string;
+}
+
+const { id, tone = "white", class: className, ariaLabel } = Astro.props;
+
+const tones = {
+  white: "bg-white",
+  cyan: "bg-surface-cyan",
+  slate: "bg-surface-slate",
+  dark: "bg-surface-dark",
+} as const;
+---
+
+<section
+  id={id}
+  aria-label={ariaLabel}
+  class={cn("scroll-mt-24 py-16 sm:py-20 lg:py-24", tones[tone], className)}
+>
+  <div class="container-px">
+    <slot />
+  </div>
+</section>

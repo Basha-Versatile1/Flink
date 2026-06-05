@@ -1,0 +1,51 @@
+---
+import { cn } from "@/lib/cn";
+
+interface Props {
+  href?: string;
+  variant?: "primary" | "secondary" | "ghost";
+  size?: "md" | "lg";
+  class?: string;
+  type?: "button" | "submit";
+  [key: string]: unknown;
+}
+
+const {
+  href,
+  variant = "primary",
+  size = "md",
+  class: className,
+  type = "button",
+  ...rest
+} = Astro.props;
+
+const base =
+  "inline-flex items-center justify-center gap-2 rounded-pill font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none";
+
+const variants = {
+  primary:
+    "bg-primary text-white shadow-soft hover:bg-primary-hover hover:-translate-y-0.5 hover:shadow-lift",
+  secondary:
+    "bg-white text-ink ring-1 ring-hairline hover:ring-primary hover:text-primary-deep hover:-translate-y-0.5 hover:shadow-soft",
+  ghost: "bg-transparent text-primary-deep hover:bg-surface-cyan",
+} as const;
+
+const sizes = {
+  md: "px-5 py-2.5 text-sm",
+  lg: "px-7 py-3.5 text-base",
+} as const;
+
+const classes = cn(base, variants[variant], sizes[size], className);
+---
+
+{
+  href ? (
+    <a href={href} class={classes} {...rest}>
+      <slot />
+    </a>
+  ) : (
+    <button type={type} class={classes} {...rest}>
+      <slot />
+    </button>
+  )
+}

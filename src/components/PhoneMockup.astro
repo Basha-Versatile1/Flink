@@ -1,0 +1,24 @@
+---
+import { cn } from "@/lib/cn";
+
+/**
+ * Placeholder phone mockup frame. Wrap any content to fake an app screen.
+ * TODO: replace inner content with real app screenshots when available.
+ */
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<div
+  class={cn(
+    "relative mx-auto aspect-[9/19] w-[240px] rounded-[2.2rem] border-[6px] border-ink bg-white shadow-lift",
+    className,
+  )}
+>
+  <div class="absolute left-1/2 top-2 z-10 h-5 w-24 -translate-x-1/2 rounded-full bg-ink"></div>
+  <div class="h-full w-full overflow-hidden rounded-[1.7rem] bg-surface-cyan">
+    <slot />
+  </div>
+</div>

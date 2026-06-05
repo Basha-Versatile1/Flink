@@ -1,0 +1,59 @@
+---
+import Section from "@/components/ui/Section.astro";
+import SectionHeading from "@/components/ui/SectionHeading.astro";
+import Card from "@/components/ui/Card.astro";
+import IconBadge from "@/components/ui/IconBadge.astro";
+import Icon from "@/components/Icon.astro";
+import Reveal from "@/components/ui/Reveal.astro";
+import Button from "@/components/ui/Button.astro";
+import { SERVICES } from "@/data/services";
+import { CITY } from "@/data/localities";
+import type { BadgeTone } from "@/components/ui/IconBadge.astro";
+
+// Cycle accent colours across the cards for a lively, multi-hue grid.
+const TONES: BadgeTone[] = ["cyan", "violet", "amber", "emerald", "rose", "blue"];
+---
+
+<Section id="services" tone="white">
+  <SectionHeading
+    eyebrow="What we clean"
+    title="Cleaning services for"
+    accent="every corner of your home"
+    intro="Pick a single task or reset the whole place. Every visit is handled by a trained Flink professional."
+  />
+
+  <ul class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    {
+      SERVICES.map((service, i) => (
+        <Reveal as="li" delay={(i % 3) * 80}>
+          <a href={`/${service.slug}/${CITY.slug}`} class="group block h-full focus-visible:outline-none">
+            <Card hover class="flex h-full flex-col">
+              {service.image ? (
+                <span class="mb-4 inline-flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl bg-surface-slate ring-1 ring-hairline">
+                  <img src={service.image} alt="" width="128" height="128" class="h-14 w-14 object-contain" loading="lazy" />
+                </span>
+              ) : (
+                <IconBadge tone={TONES[i % TONES.length]}>
+                  <Icon name={service.icon as any} size={24} />
+                </IconBadge>
+              )}
+              <h3 class="text-lg">{service.name}</h3>
+              <p class="mt-2 flex-1 text-sm text-ink-soft">{service.tagline}</p>
+              <span class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary-deep">
+                Book in {CITY.name}
+                <Icon name="arrow-right" size={16} class="transition-transform group-hover:translate-x-0.5" />
+              </span>
+            </Card>
+          </a>
+        </Reveal>
+      ))
+    }
+  </ul>
+
+  <div class="mt-10 text-center">
+    <Button href="#download" variant="ghost" size="lg">
+      View all services in the app
+      <Icon name="arrow-right" size={18} />
+    </Button>
+  </div>
+</Section>

@@ -1,0 +1,214 @@
+---
+import Logo from "@/components/Logo.astro";
+import Icon from "@/components/Icon.astro";
+import Button from "@/components/ui/Button.astro";
+import { NAV_LINKS, SERVICE_NAV, AREA_NAV } from "@/data/site";
+import { SERVICES } from "@/data/services";
+import { CITY } from "@/data/localities";
+import type { IconName } from "@/lib/icons";
+
+/**
+ * Sticky header. Desktop dropdowns are pure CSS (group-hover / focus-within —
+ * keyboard accessible, zero JS): a rich mega-menu for Services and a simple
+ * list for Areas. A tiny vanilla script handles the scroll shadow + mobile menu.
+ */
+// Small colour tiles cycle through the accent palette in the Services mega-menu.
+const TILE_TONES = [
+  "bg-surface-cyan text-primary-deep",
+  "bg-violet-50 text-violet-700",
+  "bg-amber-50 text-amber-700",
+  "bg-emerald-50 text-emerald-700",
+  "bg-rose-50 text-rose-700",
+  "bg-blue-50 text-blue-700",
+];
+---
+
+<header id="site-header" class="sticky top-0 z-50 w-full transition-all duration-200">
+  <nav aria-label="Primary" class="container-px grid h-[68px] grid-cols-[auto_1fr_auto] items-center gap-4">
+    <Logo />
+
+    <!-- Desktop nav (centered) -->
+    <ul class="hidden items-center justify-center gap-1 lg:flex">
+      {
+        NAV_LINKS.map((link) =>
+          link.dropdown === "services" ? (
+            <li class="group relative">
+              <button type="button" aria-haspopup="true" class="flex items-center gap-1 rounded-pill px-4 py-2 text-sm font-semibold text-ink-soft transition-colors hover:text-primary-deep">
+                {link.label}
+                <Icon name="chevron-down" size={16} class="transition-transform group-hover:rotate-180" />
+              </button>
+              {/* Mega-menu */}
+              <div class="invisible absolute left-1/2 top-full z-50 w-[min(40rem,92vw)] -translate-x-1/2 pt-3 opacity-0 transition-all duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                <div class="rounded-2xl border border-hairline bg-white p-3 shadow-lift">
+                  <ul class="grid grid-cols-2 gap-1">
+                    {SERVICES.map((s, i) => (
+                      <li>
+                        <a href={`/${s.slug}/${CITY.slug}`} class="flex items-start gap-3 rounded-xl p-3 transition-colors hover:bg-surface-slate">
+                          {s.image ? (
+                            <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-surface-slate ring-1 ring-hairline">
+                              <img src={s.image} alt="" width="72" height="72" class="h-8 w-8 object-contain" loading="lazy" />
+                            </span>
+                          ) : (
+                            <span class={`inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${TILE_TONES[i % TILE_TONES.length]}`}>
+                              <Icon name={s.icon as IconName} size={18} />
+                            </span>
+                          )}
+                          <span class="min-w-0">
+                            <span class="block text-sm font-semibold text-ink">{s.name}</span>
+                            <span class="block truncate text-xs text-ink-soft">{s.tagline}</span>
+                          </span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                  <a href="/#services" class="mt-1 flex items-center justify-center gap-1 rounded-xl border-t border-hairline px-3 py-3 text-sm font-semibold text-primary-deep transition-colors hover:bg-surface-cyan">
+                    View all services
+                    <Icon name="arrow-right" size={16} />
+                  </a>
+                </div>
+              </div>
+            </li>
+          ) : link.dropdown === "areas" ? (
+            <li class="group relative">
+              <button type="button" aria-haspopup="true" class="flex items-center gap-1 rounded-pill px-4 py-2 text-sm font-semibold text-ink-soft transition-colors hover:text-primary-deep">
+                {link.label}
+                <Icon name="chevron-down" size={16} class="transition-transform group-hover:rotate-180" />
+              </button>
+              <div class="invisible absolute left-1/2 top-full z-50 -translate-x-1/2 pt-3 opacity-0 transition-all duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                <ul class="min-w-56 rounded-2xl border border-hairline bg-white p-2 shadow-lift">
+                  {AREA_NAV.map((item) => (
+                    <li>
+                      <a href={item.href} class="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-ink-soft transition-colors hover:bg-surface-cyan hover:text-primary-deep">
+                        <Icon name="map-pin" size={15} class="text-primary-deep" />
+                        {item.label}
+                      </a>
+                    </li>
+                  ))}
+                  <li>
+                    <a href="/#areas" class="block rounded-xl px-3 py-2 text-sm font-semibold text-primary-deep transition-colors hover:bg-surface-cyan">
+                      Request your area →
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          ) : (
+            <li>
+              <a href={link.href} class="rounded-pill px-4 py-2 text-sm font-semibold text-ink-soft transition-colors hover:text-primary-deep">
+                {link.label}
+              </a>
+            </li>
+          ),
+        )
+      }
+    </ul>
+
+    <!-- Right: CTA (desktop) + hamburger (mobile) -->
+    <div class="flex items-center justify-end gap-2">
+      <div class="hidden lg:block">
+        <Button href="/#download" size="md" class="gap-2.5">
+          Download App
+          <span class="inline-flex items-center gap-1.5 border-l border-white/30 pl-2.5">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M16.4 12.6c0-2 1.6-3 1.7-3a3.7 3.7 0 0 0-2.9-1.6c-1.2-.1-2.4.7-3 .7s-1.6-.7-2.6-.7A4 4 0 0 0 6.3 10c-1.4 2.5-.4 6.2 1 8.2.7 1 1.5 2.1 2.6 2 1-.04 1.4-.66 2.6-.66s1.6.66 2.6.64c1.1-.02 1.8-1 2.5-2a8.8 8.8 0 0 0 1.1-2.3c-.03-.01-2.2-.85-2.2-3.32ZM14.5 6.3c.55-.67.93-1.6.83-2.53-.8.03-1.78.53-2.36 1.2-.5.6-.96 1.55-.84 2.46.9.07 1.81-.46 2.37-1.13Z" />
+            </svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M4 3.5v17a1 1 0 0 0 1.5.87l14.5-8.5a1 1 0 0 0 0-1.74L5.5 2.63A1 1 0 0 0 4 3.5Z" />
+            </svg>
+          </span>
+        </Button>
+      </div>
+
+      <button id="mobile-toggle" type="button" class="inline-flex items-center justify-center rounded-xl p-2 text-ink lg:hidden" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+        <Icon name="menu" size={26} class="menu-open" />
+        <Icon name="x" size={26} class="menu-close hidden" />
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="hidden lg:hidden">
+    <div id="mobile-overlay" class="fixed inset-0 top-[68px] z-40 bg-ink/20"></div>
+    <div class="fixed inset-x-0 top-[68px] z-50 max-h-[calc(100vh-68px)] overflow-y-auto border-t border-hairline bg-white px-5 pb-8 pt-4">
+      <ul class="flex flex-col gap-1">
+        <li class="border-b border-hairline/70 pb-1">
+          <button type="button" class="mobile-group-btn flex w-full items-center justify-between rounded-xl px-3 py-3 font-medium text-ink" aria-expanded="false">
+            Services
+            <Icon name="chevron-down" size={18} class="mobile-group-icon transition-transform" />
+          </button>
+          <ul class="mobile-group-panel hidden pb-2 pl-3">
+            {SERVICE_NAV.map((item) => (
+              <li><a href={item.href} class="block rounded-lg px-3 py-2 text-sm text-ink-soft">{item.label}</a></li>
+            ))}
+          </ul>
+        </li>
+        <li class="border-b border-hairline/70 pb-1">
+          <button type="button" class="mobile-group-btn flex w-full items-center justify-between rounded-xl px-3 py-3 font-medium text-ink" aria-expanded="false">
+            Areas
+            <Icon name="chevron-down" size={18} class="mobile-group-icon transition-transform" />
+          </button>
+          <ul class="mobile-group-panel hidden pb-2 pl-3">
+            {AREA_NAV.map((item) => (
+              <li><a href={item.href} class="block rounded-lg px-3 py-2 text-sm text-ink-soft">{item.label}</a></li>
+            ))}
+          </ul>
+        </li>
+        <li><a href="/#why-flink" class="mobile-link block rounded-xl px-3 py-3 font-medium text-ink">Why Flink</a></li>
+        <li><a href="/#pricing" class="mobile-link block rounded-xl px-3 py-3 font-medium text-ink">Pricing</a></li>
+        <li><a href="/#faq" class="mobile-link block rounded-xl px-3 py-3 font-medium text-ink">FAQ</a></li>
+      </ul>
+      <Button href="/#download" size="lg" class="mobile-link mt-4 w-full">Download App</Button>
+    </div>
+  </div>
+</header>
+
+<script>
+  function initHeader() {
+    const header = document.getElementById("site-header");
+    const toggle = document.getElementById("mobile-toggle");
+    const menu = document.getElementById("mobile-menu");
+    const overlay = document.getElementById("mobile-overlay");
+    const openIcon = toggle?.querySelector(".menu-open");
+    const closeIcon = toggle?.querySelector(".menu-close");
+
+    // Scroll shadow / background.
+    const onScroll = () => {
+      if (!header) return;
+      const on = window.scrollY > 8;
+      header.classList.toggle("bg-white/90", on);
+      header.classList.toggle("shadow-soft", on);
+      header.classList.toggle("backdrop-blur", on);
+      header.classList.toggle("supports-[backdrop-filter]:bg-white/75", on);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    const setMenu = (open: boolean) => {
+      menu?.classList.toggle("hidden", !open);
+      toggle?.setAttribute("aria-expanded", String(open));
+      toggle?.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      openIcon?.classList.toggle("hidden", open);
+      closeIcon?.classList.toggle("hidden", !open);
+      document.body.style.overflow = open ? "hidden" : "";
+    };
+
+    toggle?.addEventListener("click", () => setMenu(menu?.classList.contains("hidden") ?? true));
+    overlay?.addEventListener("click", () => setMenu(false));
+    menu?.querySelectorAll(".mobile-link").forEach((el) => el.addEventListener("click", () => setMenu(false)));
+
+    // Mobile accordion groups.
+    menu?.querySelectorAll<HTMLButtonElement>(".mobile-group-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const panel = btn.parentElement?.querySelector(".mobile-group-panel");
+        const icon = btn.querySelector(".mobile-group-icon");
+        const isOpen = !panel?.classList.contains("hidden");
+        panel?.classList.toggle("hidden", isOpen);
+        icon?.classList.toggle("rotate-180", !isOpen);
+        btn.setAttribute("aria-expanded", String(!isOpen));
+      });
+    });
+  }
+
+  initHeader();
+  document.addEventListener("astro:after-swap", initHeader);
+</script>

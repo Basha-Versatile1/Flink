@@ -1,0 +1,30 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import LegalPage from "@/components/LegalPage.astro";
+import { buildMeta } from "@/lib/seo";
+import { BRAND_NAME } from "@/lib/config";
+
+const meta = buildMeta({
+  title: "Terms & Conditions",
+  description: `The terms governing your use of ${BRAND_NAME} services.`,
+  path: "/legal/terms",
+});
+---
+
+<Layout meta={meta}>
+  <LegalPage title="Terms & Conditions" intro="The agreement between you and Flink when you use our services.">
+    {/* TODO: replace all placeholder sections with finalised terms. */}
+    <h2>1. Acceptance of terms</h2>
+    <p>Placeholder. State that using Flink constitutes acceptance.</p>
+    <h2>2. The service</h2>
+    <p>Placeholder. Describe the on-demand cleaning service and that bookings, payments, and worker management happen in the app.</p>
+    <h2>3. Bookings &amp; pricing</h2>
+    <p>Placeholder. Cover booking, pricing, and payment terms.</p>
+    <h2>4. User responsibilities</h2>
+    <p>Placeholder. Outline expected conduct and access requirements.</p>
+    <h2>5. Liability</h2>
+    <p>Placeholder. State limitations of liability.</p>
+    <h2>6. Changes &amp; governing law</h2>
+    <p>Placeholder. Note amendment rights and applicable jurisdiction (India).</p>
+  </LegalPage>
+</Layout>

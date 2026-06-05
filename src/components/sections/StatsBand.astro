@@ -1,0 +1,37 @@
+---
+import Counter from "@/components/ui/Counter.astro";
+import Icon from "@/components/Icon.astro";
+import Reveal from "@/components/ui/Reveal.astro";
+import { STATS } from "@/data/site";
+import type { IconName } from "@/lib/icons";
+
+// Numbers are placeholders ([N]+) until the client supplies real figures (§2).
+---
+
+<section aria-label="Flink by the numbers" class="border-b border-hairline bg-white">
+  <div class="container-px py-14">
+    <dl class="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      {
+        STATS.map((stat, i) => (
+          <Reveal as="div" delay={(i % 4) * 70}>
+            <div class="flex h-full items-center gap-4 rounded-card border border-primary/10 bg-surface-cyan/60 p-5">
+              <span class="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white text-primary-deep ring-1 ring-primary/15">
+                <Icon name={stat.icon as IconName} size={24} />
+              </span>
+              <div>
+                <dd class="text-2xl font-bold tracking-tight text-ink sm:text-3xl">
+                  <Counter value={stat.value} display={stat.display} suffix={stat.suffix} />
+                </dd>
+                <dt class="mt-0.5 text-sm font-medium text-ink-soft">{stat.label}</dt>
+              </div>
+            </div>
+          </Reveal>
+        ))
+      }
+    </dl>
+    <p class="mt-6 text-center text-xs text-ink-soft/50">
+      {/* TODO: replace placeholder figures with verified stats before launch */}
+      Figures shown are placeholders pending launch metrics.
+    </p>
+  </div>
+</section>

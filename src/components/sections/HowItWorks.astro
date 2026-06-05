@@ -1,0 +1,76 @@
+---
+import Section from "@/components/ui/Section.astro";
+import SectionHeading from "@/components/ui/SectionHeading.astro";
+import Reveal from "@/components/ui/Reveal.astro";
+import PhoneMockup from "@/components/PhoneMockup.astro";
+import { HOW_IT_WORKS } from "@/data/site";
+---
+
+<Section id="how-it-works" tone="dark" class="relative overflow-hidden">
+  <div aria-hidden="true" class="pointer-events-none absolute left-1/2 top-0 h-64 w-[40rem] max-w-full -translate-x-1/2 rounded-full bg-primary/15 blur-3xl"></div>
+
+  <div class="relative">
+    <SectionHeading
+      onDark
+      eyebrow="How it works"
+      title="Simple steps to a"
+      accent="cleaner home"
+      intro="No calls, no haggling — book a trained Flink professional in under a minute."
+    />
+
+    <ol class="mt-14 grid gap-10 sm:grid-cols-3 sm:gap-6">
+      {
+        HOW_IT_WORKS.map((step, i) => (
+          <Reveal as="li" delay={i * 100} class="text-center">
+            <PhoneMockup class="!w-[210px]">
+              {/* TODO: replace with real app screenshots */}
+              <div class="flex h-full flex-col gap-2 p-3">
+                {i === 0 && (
+                  <>
+                    <div class="rounded-lg bg-white p-2 shadow-soft">
+                      <p class="text-[10px] font-semibold text-ink">Choose a service</p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-1.5">
+                      {["Bathroom", "Kitchen", "Mopping", "Whole-Home"].map((s) => (
+                        <div class="rounded-lg bg-white/85 p-1.5 text-center text-[9px] font-medium text-ink-soft ring-1 ring-hairline">{s}</div>
+                      ))}
+                    </div>
+                    <div class="mt-auto rounded-pill bg-primary py-1.5 text-center text-[10px] font-semibold text-white">Continue</div>
+                  </>
+                )}
+                {i === 1 && (
+                  <>
+                    <div class="rounded-lg bg-white p-2 shadow-soft">
+                      <p class="text-[10px] font-semibold text-ink">When should we come?</p>
+                    </div>
+                    <div class="rounded-lg bg-primary/10 p-2 text-[9px] font-semibold text-primary-deep ring-1 ring-primary/20">Now · ~10 min</div>
+                    <div class="rounded-lg bg-white/85 p-2 text-[9px] text-ink-soft ring-1 ring-hairline">Today, 6:00 PM</div>
+                    <div class="rounded-lg bg-white/85 p-2 text-[9px] text-ink-soft ring-1 ring-hairline">Schedule weekly</div>
+                    <div class="mt-auto rounded-pill bg-primary py-1.5 text-center text-[10px] font-semibold text-white">Confirm booking</div>
+                  </>
+                )}
+                {i === 2 && (
+                  <>
+                    <div class="rounded-lg bg-white p-2 shadow-soft">
+                      <p class="text-[10px] font-semibold text-ink">Arriving in ~9 min</p>
+                      <p class="text-[8px] text-ink-soft">Live tracking on</p>
+                    </div>
+                    <div class="flex-1 rounded-lg bg-primary/15"></div>
+                    <div class="grid grid-cols-2 gap-1.5">
+                      <div class="rounded-lg bg-white/85 py-1.5 text-center text-[9px] font-medium text-ink-soft ring-1 ring-hairline">Chat</div>
+                      <div class="rounded-lg bg-white/85 py-1.5 text-center text-[9px] font-medium text-ink-soft ring-1 ring-hairline">Call</div>
+                    </div>
+                  </>
+                )}
+              </div>
+            </PhoneMockup>
+
+            <p class="mt-6 text-xs font-semibold uppercase tracking-wide text-primary-light">Step {step.step}</p>
+            <h3 class="mt-1 text-lg font-semibold text-white">{step.title}</h3>
+            <p class="mx-auto mt-1.5 max-w-xs text-sm text-white/65">{step.body}</p>
+          </Reveal>
+        ))
+      }
+    </ol>
+  </div>
+</Section>

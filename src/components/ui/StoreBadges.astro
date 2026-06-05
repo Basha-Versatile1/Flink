@@ -1,0 +1,27 @@
+---
+import Button from "@/components/ui/Button.astro";
+import { cn } from "@/lib/cn";
+
+/**
+ * Single "Download App" CTA with Apple + Google Play glyphs — same treatment as
+ * the header button, so the call-to-action is consistent across the site.
+ * Links to the #download section; swap to direct store URLs before launch.
+ */
+interface Props {
+  class?: string;
+  size?: "md" | "lg";
+}
+const { class: className, size = "lg" } = Astro.props;
+---
+
+<Button href="/#download" size={size} class={cn("gap-2.5", className)}>
+  Download App
+  <span class="inline-flex items-center gap-1.5 border-l border-white/30 pl-2.5">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M16.4 12.6c0-2 1.6-3 1.7-3a3.7 3.7 0 0 0-2.9-1.6c-1.2-.1-2.4.7-3 .7s-1.6-.7-2.6-.7A4 4 0 0 0 6.3 10c-1.4 2.5-.4 6.2 1 8.2.7 1 1.5 2.1 2.6 2 1-.04 1.4-.66 2.6-.66s1.6.66 2.6.64c1.1-.02 1.8-1 2.5-2a8.8 8.8 0 0 0 1.1-2.3c-.03-.01-2.2-.85-2.2-3.32ZM14.5 6.3c.55-.67.93-1.6.83-2.53-.8.03-1.78.53-2.36 1.2-.5.6-.96 1.55-.84 2.46.9.07 1.81-.46 2.37-1.13Z"></path>
+    </svg>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M4 3.5v17a1 1 0 0 0 1.5.87l14.5-8.5a1 1 0 0 0 0-1.74L5.5 2.63A1 1 0 0 0 4 3.5Z"></path>
+    </svg>
+  </span>
+</Button>
