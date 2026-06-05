@@ -1,59 +1,90 @@
 ---
 import Section from "@/components/ui/Section.astro";
 import SectionHeading from "@/components/ui/SectionHeading.astro";
-import Card from "@/components/ui/Card.astro";
-import IconBadge from "@/components/ui/IconBadge.astro";
 import Icon from "@/components/Icon.astro";
 import Reveal from "@/components/ui/Reveal.astro";
 import Button from "@/components/ui/Button.astro";
 import { SERVICES } from "@/data/services";
 import { CITY } from "@/data/localities";
-import type { BadgeTone } from "@/components/ui/IconBadge.astro";
 
-// Cycle accent colours across the cards for a lively, multi-hue grid.
-const TONES: BadgeTone[] = ["cyan", "violet", "amber", "emerald", "rose", "blue"];
+// Gradient icon tiles (multi-hue, with a coloured glow). Literal strings so
+// Tailwind's JIT keeps every class.
+const TILES = [
+  "bg-gradient-to-br from-primary to-primary-light shadow-[0_10px_24px_-8px_rgba(6,182,212,0.75)]",
+  "bg-gradient-to-br from-violet-500 to-violet-400 shadow-[0_10px_24px_-8px_rgba(124,58,237,0.7)]",
+  "bg-gradient-to-br from-amber-500 to-amber-400 shadow-[0_10px_24px_-8px_rgba(217,119,6,0.7)]",
+  "bg-gradient-to-br from-emerald-500 to-emerald-400 shadow-[0_10px_24px_-8px_rgba(5,150,105,0.7)]",
+  "bg-gradient-to-br from-blue-500 to-blue-400 shadow-[0_10px_24px_-8px_rgba(37,99,235,0.7)]",
+  "bg-gradient-to-br from-rose-500 to-rose-400 shadow-[0_10px_24px_-8px_rgba(225,29,72,0.7)]",
+];
 ---
 
-<Section id="services" tone="white">
-  <SectionHeading
-    eyebrow="What we clean"
-    title="Cleaning services for"
-    accent="every corner of your home"
-    intro="Pick a single task or reset the whole place. Every visit is handled by a trained Flink professional."
-  />
+<Section id="services" tone="dark" class="relative overflow-hidden">
+  <!-- Soft cyan glow behind the heading -->
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute left-1/2 top-0 h-72 w-[44rem] max-w-full -translate-x-1/2 rounded-full bg-primary/15 blur-[100px]"
+  >
+  </div>
 
-  <ul class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-    {
-      SERVICES.map((service, i) => (
-        <Reveal as="li" delay={(i % 3) * 80}>
-          <a href={`/${service.slug}/${CITY.slug}`} class="group block h-full focus-visible:outline-none">
-            <Card hover class="flex h-full flex-col">
-              {service.image ? (
-                <span class="mb-4 inline-flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl bg-surface-slate ring-1 ring-hairline">
-                  <img src={service.image} alt="" width="128" height="128" class="h-14 w-14 object-contain" loading="lazy" />
+  <div class="relative">
+    <SectionHeading
+      eyebrow="What we clean"
+      title="Cleaning services for"
+      accent="every corner of your home"
+      intro="Pick a single task or reset the whole place. Every visit is handled by a trained Flink professional."
+      onDark
+    />
+
+    <ul class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        SERVICES.map((service, i) => (
+          <Reveal as="li" delay={(i % 3) * 80}>
+            <a
+              href={`/${service.slug}/${CITY.slug}`}
+              class="group block h-full focus-visible:outline-none"
+            >
+              <article class="flex h-full flex-col rounded-card border border-white/10 bg-white/[0.04] p-6 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08),0_18px_40px_-24px_rgba(0,0,0,0.85)] backdrop-blur-sm transition-all duration-200 group-hover:-translate-y-0.5 group-hover:border-primary/40 group-hover:bg-white/[0.06] group-hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.14),0_24px_48px_-20px_rgba(0,0,0,0.95)]">
+                {service.image ? (
+                  <span class="mb-4 inline-flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl bg-white/10 ring-1 ring-white/15">
+                    <img
+                      src={service.image}
+                      alt=""
+                      width="96"
+                      height="96"
+                      class="h-10 w-10 object-contain"
+                      loading="lazy"
+                    />
+                  </span>
+                ) : (
+                  <span
+                    class={`mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl text-white ${TILES[i % TILES.length]}`}
+                  >
+                    <Icon name={service.icon as any} size={22} />
+                  </span>
+                )}
+                <h3 class="text-lg font-semibold text-white">{service.name}</h3>
+                <p class="mt-2 flex-1 text-sm text-white/60">{service.tagline}</p>
+                <span class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary-light">
+                  Book in {CITY.name}
+                  <Icon
+                    name="arrow-right"
+                    size={16}
+                    class="transition-transform group-hover:translate-x-0.5"
+                  />
                 </span>
-              ) : (
-                <IconBadge tone={TONES[i % TONES.length]}>
-                  <Icon name={service.icon as any} size={24} />
-                </IconBadge>
-              )}
-              <h3 class="text-lg">{service.name}</h3>
-              <p class="mt-2 flex-1 text-sm text-ink-soft">{service.tagline}</p>
-              <span class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary-deep">
-                Book in {CITY.name}
-                <Icon name="arrow-right" size={16} class="transition-transform group-hover:translate-x-0.5" />
-              </span>
-            </Card>
-          </a>
-        </Reveal>
-      ))
-    }
-  </ul>
+              </article>
+            </a>
+          </Reveal>
+        ))
+      }
+    </ul>
 
-  <div class="mt-10 text-center">
-    <Button href="#download" variant="ghost" size="lg">
-      View all services in the app
-      <Icon name="arrow-right" size={18} />
-    </Button>
+    <div class="mt-10 text-center">
+      <Button href="#download" variant="secondary" size="lg">
+        View all services in the app
+        <Icon name="arrow-right" size={18} />
+      </Button>
+    </div>
   </div>
 </Section>
