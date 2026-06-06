@@ -18,7 +18,7 @@ export const BRAND_NAME = "Flink";
 export const SITE_URL = "https://www.flink.com";
 
 // Short tagline used in metadata + footer.
-export const BRAND_TAGLINE = "A spotless home in ~10 minutes.";
+export const BRAND_TAGLINE = "Trusted house help, in minutes.";
 
 // City the site currently serves (data-driven expansion lives in /data/localities.ts).
 export const PRIMARY_CITY = "Hyderabad";
