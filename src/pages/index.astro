@@ -2,7 +2,6 @@
 import Layout from "@/layouts/Layout.astro";
 import JsonLd from "@/components/JsonLd.astro";
 import Hero from "@/components/sections/Hero.astro";
-import TrustStrip from "@/components/sections/TrustStrip.astro";
 import StatsBand from "@/components/sections/StatsBand.astro";
 import ServicesGrid from "@/components/sections/ServicesGrid.astro";
 import HowItWorks from "@/components/sections/HowItWorks.astro";
@@ -30,7 +29,6 @@ const meta = buildMeta({
   <JsonLd slot="head" data={faqJsonLd()} />
 
   <Hero />
-  <TrustStrip />
   <StatsBand />
   <ServicesGrid />
   <HowItWorks />

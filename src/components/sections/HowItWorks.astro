@@ -1,28 +1,37 @@
 ---
 import Section from "@/components/ui/Section.astro";
-import SectionHeading from "@/components/ui/SectionHeading.astro";
 import Reveal from "@/components/ui/Reveal.astro";
 import PhoneMockup from "@/components/PhoneMockup.astro";
 import { HOW_IT_WORKS } from "@/data/site";
 ---
 
-<Section id="how-it-works" tone="dark" class="relative overflow-hidden">
-  <div aria-hidden="true" class="pointer-events-none absolute left-1/2 top-0 h-64 w-[40rem] max-w-full -translate-x-1/2 rounded-full bg-primary/15 blur-3xl"></div>
+<Section id="how-it-works" tone="white" class="relative overflow-hidden">
+  <!-- Soft top-to-violet wash -->
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 bg-gradient-to-b from-white via-white to-violet-50/70"
+  >
+  </div>
 
   <div class="relative">
-    <SectionHeading
-      onDark
-      eyebrow="How it works"
-      title="Simple steps to a"
-      accent="cleaner home"
-      intro="No calls, no haggling — book a trained Flink professional in under a minute."
-    />
+    <!-- Heading -->
+    <div class="mx-auto max-w-2xl text-center">
+      <span class="mb-4 inline-flex items-center rounded-pill bg-violet-100 px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-violet-700">
+        How it works
+      </span>
+      <h2 class="text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+        Simple steps to a <span class="text-violet-600">cleaner home</span>
+      </h2>
+      <p class="mt-4 text-lg text-ink-soft">
+        No calls, no haggling — book a trained Flink professional in under a minute.
+      </p>
+    </div>
 
     <ol class="mt-14 grid gap-10 sm:grid-cols-3 sm:gap-6">
       {
         HOW_IT_WORKS.map((step, i) => (
           <Reveal as="li" delay={i * 100} class="text-center">
-            <PhoneMockup class="!w-[210px]">
+            <PhoneMockup class="!w-[210px] cursor-pointer transition-all duration-300 ease-out hover:shadow-[0_28px_55px_-12px_rgba(124,58,237,0.55)] motion-safe:hover:-translate-y-2 motion-safe:hover:scale-[1.03] motion-safe:hover:rotate-[1.5deg]">
               {/* TODO: replace with real app screenshots */}
               <div class="flex h-full flex-col gap-2 p-3">
                 {i === 0 && (
@@ -65,9 +74,9 @@ import { HOW_IT_WORKS } from "@/data/site";
               </div>
             </PhoneMockup>
 
-            <p class="mt-6 text-xs font-semibold uppercase tracking-wide text-primary-light">Step {step.step}</p>
-            <h3 class="mt-1 text-lg font-semibold text-white">{step.title}</h3>
-            <p class="mx-auto mt-1.5 max-w-xs text-sm text-white/65">{step.body}</p>
+            <p class="mt-6 text-xs font-semibold uppercase tracking-wide text-violet-600">Step {step.step}</p>
+            <h3 class="mt-1 text-lg font-semibold text-ink">{step.title}</h3>
+            <p class="mx-auto mt-1.5 max-w-xs text-sm text-ink-soft">{step.body}</p>
           </Reveal>
         ))
       }

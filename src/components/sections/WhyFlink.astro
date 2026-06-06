@@ -12,27 +12,36 @@ import type { BadgeTone } from "@/components/ui/IconBadge.astro";
 const TONES: BadgeTone[] = ["cyan", "violet", "amber", "emerald", "rose", "blue"];
 ---
 
-<Section id="why-flink" tone="white">
-  <SectionHeading
-    eyebrow="Why Flink"
-    title="Built on trust,"
-    accent="not guesswork"
-    intro="We own the whole experience — our people, our training, our standards — so you always know who's at your door."
-  />
+<Section id="why-flink" tone="white" class="relative overflow-hidden">
+  <!-- Soft peach → mint gradient wash -->
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,#FFEFE2_0%,#FFFFFF_50%,#E6FAF0_100%)]"
+  >
+  </div>
 
-  <ul class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-    {
-      TRUST_PILLARS.map((pillar, i) => (
-        <Reveal as="li" delay={(i % 3) * 80}>
-          <Card hover class="h-full">
-            <IconBadge tone={TONES[i % TONES.length]}>
-              <Icon name={pillar.icon as IconName} size={24} />
-            </IconBadge>
-            <h3 class="text-lg font-semibold">{pillar.title}</h3>
-            <p class="mt-2 text-sm text-ink-soft">{pillar.body}</p>
-          </Card>
-        </Reveal>
-      ))
-    }
-  </ul>
+  <div class="relative">
+    <SectionHeading
+      eyebrow="Why Flink"
+      title="Built on trust,"
+      accent="not guesswork"
+      intro="We own the whole experience — our people, our training, our standards — so you always know who's at your door."
+    />
+
+    <ul class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        TRUST_PILLARS.map((pillar, i) => (
+          <Reveal as="li" delay={(i % 3) * 80}>
+            <Card hover class="h-full">
+              <IconBadge tone={TONES[i % TONES.length]}>
+                <Icon name={pillar.icon as IconName} size={24} />
+              </IconBadge>
+              <h3 class="text-lg font-semibold">{pillar.title}</h3>
+              <p class="mt-2 text-sm text-ink-soft">{pillar.body}</p>
+            </Card>
+          </Reveal>
+        ))
+      }
+    </ul>
+  </div>
 </Section>

@@ -3,7 +3,7 @@ import { cn } from "@/lib/cn";
 
 interface Props {
   id?: string;
-  tone?: "white" | "cyan" | "slate" | "dark";
+  tone?: "white" | "cyan" | "slate" | "dark" | "transparent";
   class?: string;
   ariaLabel?: string;
 }
@@ -15,6 +15,7 @@ const tones = {
   cyan: "bg-surface-cyan",
   slate: "bg-surface-slate",
   dark: "bg-surface-dark",
+  transparent: "bg-transparent",
 } as const;
 ---
 

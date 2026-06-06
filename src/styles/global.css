@@ -22,7 +22,9 @@
   }
 
   body {
-    @apply bg-surface text-ink font-sans antialiased;
+    /* Transparent so the fixed ambient SiteBackground (-z-10) shows through.
+       Opaque sections paint over it; transparent sections reveal it. */
+    @apply bg-transparent text-ink font-sans antialiased;
     text-rendering: optimizeLegibility;
   }
 
@@ -108,9 +110,39 @@
     animation: floaty 9s ease-in-out infinite;
   }
 
+  /* ---- Gentle continuous phone bob (auto, no hover) ---- */
+  @keyframes phoneFloat {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-12px);
+    }
+  }
+  .animate-phone-float {
+    animation: phoneFloat 5s ease-in-out infinite;
+  }
+
+  /* ---- Animated dotted connector (how it works: step 1 → 2 → 3) ---- */
+  .dotted-flow {
+    background-image: radial-gradient(circle, currentColor 2px, transparent 2.5px);
+    background-size: 14px 6px;
+    background-repeat: repeat-x;
+    background-position: 0 50%;
+    animation: dotsFlow 0.9s linear infinite;
+  }
+  @keyframes dotsFlow {
+    to {
+      background-position: 14px 50%;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .animate-marquee,
-    .animate-floaty {
+    .animate-floaty,
+    .animate-phone-float,
+    .dotted-flow {
       animation: none !important;
     }
   }

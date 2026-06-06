@@ -41,10 +41,10 @@ export type Stat = {
 };
 
 export const STATS: Stat[] = [
-  { value: 0, display: "[N]+", label: "Homes served", icon: "home" }, // TODO
+  { value: 5, display: "5K+", suffix: "K+", label: "Homes served", icon: "home" },
   { value: 10, display: "~10", label: "Avg. arrival (min)", suffix: " min", icon: "bolt" },
-  { value: 0, display: "[N]+", label: "Trained professionals", icon: "users" }, // TODO
-  { value: 0, display: "[N]+", label: "Cleaning jobs done", icon: "sparkles" }, // TODO
+  { value: 150, display: "150+", suffix: "+", label: "Trained professionals", icon: "users" },
+  { value: 15, display: "15K+", suffix: "K+", label: "Cleaning jobs done", icon: "sparkles" },
 ];
 
 /* ---------- How it works ---------- */

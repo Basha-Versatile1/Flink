@@ -20,9 +20,10 @@ const SCREENS = [
         {
           SCREENS.map((screen, i) => {
             const pos = ["-rotate-[10deg] -translate-x-24 translate-y-6 z-0", "z-20", "rotate-[10deg] translate-x-24 translate-y-6 z-0"];
+            const delay = ["[animation-delay:0.6s]", "[animation-delay:0s]", "[animation-delay:1.2s]"];
             return (
               <div class={`absolute ${pos[i]}`}>
-                <PhoneMockup class={`!w-[180px] ${i === 1 ? "shadow-lift" : "opacity-95"}`}>
+                <PhoneMockup class={`animate-phone-float !w-[180px] ${delay[i]} ${i === 1 ? "shadow-lift" : "opacity-95"}`}>
                   <div class="flex h-full flex-col gap-2 p-3">
                     <div class="rounded-lg bg-white p-2 shadow-soft">
                       <p class="text-[10px] font-semibold text-ink">{screen.title}</p>
