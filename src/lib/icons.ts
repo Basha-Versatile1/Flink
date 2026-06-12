@@ -6,6 +6,7 @@
  */
 export type IconName =
   | "droplet"
+  | "shower"
   | "bed"
   | "chef"
   | "utensils"
@@ -42,6 +43,7 @@ export type IconName =
 
 export const ICON_PATHS: Record<IconName, string> = {
   droplet: `<path d="M12 3s6 6.5 6 11a6 6 0 1 1-12 0c0-4.5 6-11 6-11Z" />`,
+  shower: `<path d="M12 3v3" /><path d="M6 8.5c0-1.4 2.7-2.5 6-2.5s6 1.1 6 2.5" /><path d="M5.5 8.5h13l-1.2 2.6H6.7L5.5 8.5Z" /><path d="M9 14.5l-1 3M12 14.5v3M15 14.5l1 3" />`,
   bed: `<path d="M3 17v-5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v5" /><path d="M3 17h18M3 17v3M21 17v3M7 10V8a1 1 0 0 1 1-1h3v3" />`,
   chef: `<path d="M6 13a4 4 0 1 1 1-7.9 4 4 0 0 1 10 0A4 4 0 1 1 18 13" /><path d="M6 13h12v5a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-5Z" />`,
   utensils: `<path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10" /><path d="M17 3c-1.5 0-2.5 2-2.5 5S15 13 17 13s2.5-2 2.5-5S18.5 3 17 3Zm0 10v8" />`,

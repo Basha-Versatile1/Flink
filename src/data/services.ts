@@ -39,7 +39,7 @@ export const SERVICES: Service[] = [
     tagline: "Sparkling, sanitised bathrooms — scrubbed top to bottom.",
     description:
       "A thorough bathroom clean that tackles tiles, fittings, mirrors, and floors. Our trained professional descales, scrubs, and sanitises so the room feels genuinely fresh — not just wiped over.",
-    icon: "droplet",
+    icon: "shower",
     typicalDuration: "30–60 min",
     pricePerHour: "[₹XX/hr]",
     pricePerTask: "[₹XX/task]",
