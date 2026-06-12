@@ -3,6 +3,19 @@ import Section from "@/components/ui/Section.astro";
 import Reveal from "@/components/ui/Reveal.astro";
 import HowItWorksPhone from "@/components/HowItWorksPhone.astro";
 import { HOW_IT_WORKS } from "@/data/site";
+
+/**
+ * `compact` renders all three steps on a single screen with gently floating
+ * phones (used on service pages). Default is the desktop sticky scroll-story
+ * (used on the homepage).
+ */
+interface Props {
+  compact?: boolean;
+}
+const { compact = false } = Astro.props;
+
+// Staggered float so the phones bob out of sync.
+const FLOAT_DELAY = ["[animation-delay:0s]", "[animation-delay:0.6s]", "[animation-delay:1.2s]"];
 ---
 
 <Section id="how-it-works" tone="white" class="relative overflow-hidden">
@@ -27,61 +40,71 @@ import { HOW_IT_WORKS } from "@/data/site";
       </p>
     </div>
 
-    <!-- MOBILE / tablet: simple stacked steps (no scroll-jacking) -->
-    <ol class="mt-14 space-y-14 lg:hidden">
-      {
-        HOW_IT_WORKS.map((step, i) => (
-          <Reveal as="li" delay={i * 80} class="flex flex-col items-center text-center">
-            <HowItWorksPhone step={i} class="!w-[210px]" />
-            <p class="mt-6 text-xs font-semibold uppercase tracking-wide text-violet-600">Step {step.step}</p>
-            <h3 class="mt-1 text-lg font-semibold text-ink">{step.title}</h3>
-            <p class="mx-auto mt-1.5 max-w-xs text-sm text-ink-soft">{step.body}</p>
-          </Reveal>
-        ))
-      }
-    </ol>
+    {
+      compact ? (
+        /* COMPACT: all three steps on one screen, phones gently floating. */
+        <ol class="mt-14 grid gap-10 sm:grid-cols-3 sm:gap-6">
+          {HOW_IT_WORKS.map((step, i) => (
+            <Reveal as="li" delay={i * 100} class="text-center">
+              <HowItWorksPhone
+                step={i}
+                class={`animate-phone-float mx-auto !w-[210px] ${FLOAT_DELAY[i % FLOAT_DELAY.length]}`}
+              />
+              <p class="mt-6 text-xs font-semibold uppercase tracking-wide text-violet-600">Step {step.step}</p>
+              <h3 class="mt-1 text-lg font-semibold text-ink">{step.title}</h3>
+              <p class="mx-auto mt-1.5 max-w-xs text-sm text-ink-soft">{step.body}</p>
+            </Reveal>
+          ))}
+        </ol>
+      ) : (
+        <>
+          {/* MOBILE / tablet: simple stacked steps (no scroll-jacking) */}
+          <ol class="mt-14 space-y-14 lg:hidden">
+            {HOW_IT_WORKS.map((step, i) => (
+              <Reveal as="li" delay={i * 80} class="flex flex-col items-center text-center">
+                <HowItWorksPhone step={i} class="!w-[210px]" />
+                <p class="mt-6 text-xs font-semibold uppercase tracking-wide text-violet-600">Step {step.step}</p>
+                <h3 class="mt-1 text-lg font-semibold text-ink">{step.title}</h3>
+                <p class="mx-auto mt-1.5 max-w-xs text-sm text-ink-soft">{step.body}</p>
+              </Reveal>
+            ))}
+          </ol>
 
-    <!-- DESKTOP: sticky scroll-story — phone advances step-by-step as you scroll -->
-    <div class="mt-10 hidden lg:grid lg:grid-cols-2 lg:gap-16" data-howitworks>
-      <!-- Left: tall steps that drive the scroll -->
-      <ol class="py-[18vh]">
-        {
-          HOW_IT_WORKS.map((step, i) => (
-            <li data-hiw-step={i} class="hiw-step flex min-h-[56vh] flex-col justify-center">
-              <span class="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-violet-600 text-base font-bold text-white shadow-[0_8px_20px_-6px_rgba(124,58,237,0.6)]">
-                {step.step}
-              </span>
-              <p class="mt-5 text-xs font-semibold uppercase tracking-wide text-violet-600">Step {step.step}</p>
-              <h3 class="mt-1 text-2xl font-bold text-ink">{step.title}</h3>
-              <p class="mt-3 max-w-md text-base text-ink-soft">{step.body}</p>
-            </li>
-          ))
-        }
-      </ol>
+          {/* DESKTOP: sticky scroll-story — phone advances step-by-step as you scroll */}
+          <div class="mt-10 hidden lg:grid lg:grid-cols-2 lg:gap-16" data-howitworks>
+            <ol class="py-[18vh]">
+              {HOW_IT_WORKS.map((step, i) => (
+                <li data-hiw-step={i} class="hiw-step flex min-h-[56vh] flex-col justify-center">
+                  <span class="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-violet-600 text-base font-bold text-white shadow-[0_8px_20px_-6px_rgba(124,58,237,0.6)]">
+                    {step.step}
+                  </span>
+                  <p class="mt-5 text-xs font-semibold uppercase tracking-wide text-violet-600">Step {step.step}</p>
+                  <h3 class="mt-1 text-2xl font-bold text-ink">{step.title}</h3>
+                  <p class="mt-3 max-w-md text-base text-ink-soft">{step.body}</p>
+                </li>
+              ))}
+            </ol>
 
-      <!-- Right: sticky phone that cross-fades between screens -->
-      <div class="relative">
-        <div class="sticky top-0 flex h-screen flex-col items-center justify-center">
-          <div class="relative h-[440px] w-[214px]">
-            {
-              HOW_IT_WORKS.map((_, i) => (
-                <div data-hiw-screen={i} class="hiw-screen absolute inset-0 flex items-center justify-center">
-                  <HowItWorksPhone step={i} class="!w-[210px]" />
+            <div class="relative">
+              <div class="sticky top-0 flex h-screen flex-col items-center justify-center">
+                <div class="relative h-[440px] w-[214px]">
+                  {HOW_IT_WORKS.map((_, i) => (
+                    <div data-hiw-screen={i} class="hiw-screen absolute inset-0 flex items-center justify-center">
+                      <HowItWorksPhone step={i} class="!w-[210px]" />
+                    </div>
+                  ))}
                 </div>
-              ))
-            }
+                <div class="mt-8 flex items-center gap-2.5" aria-hidden="true">
+                  {HOW_IT_WORKS.map((_, i) => (
+                    <span data-hiw-dot={i} class="hiw-dot h-2 w-2 rounded-full bg-violet-200 transition-all duration-300" />
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
-          <!-- Progress dots -->
-          <div class="mt-8 flex items-center gap-2.5" aria-hidden="true">
-            {
-              HOW_IT_WORKS.map((_, i) => (
-                <span data-hiw-dot={i} class="hiw-dot h-2 w-2 rounded-full bg-violet-200 transition-all duration-300" />
-              ))
-            }
-          </div>
-        </div>
-      </div>
-    </div>
+        </>
+      )
+    }
   </div>
 </Section>
 
