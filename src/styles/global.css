@@ -157,6 +157,21 @@
     animation: aurora 18s ease-in-out infinite;
   }
 
+  /* ---- Expanding radar pulse ring (service hero "available near you") ---- */
+  @keyframes pulseRing {
+    0% {
+      transform: scale(0.75);
+      opacity: 0.6;
+    }
+    100% {
+      transform: scale(1.7);
+      opacity: 0;
+    }
+  }
+  .animate-pulse-ring {
+    animation: pulseRing 3s ease-out infinite;
+  }
+
   /* ---- Cursor spotlight + 3D tilt cards ----
      Card sets [data-spotlight] + class "spotlight" and contains a
      <span class="spotlight-glow">. JS feeds --mx/--my and the tilt transform. */
@@ -181,6 +196,7 @@
     .animate-floaty,
     .animate-phone-float,
     .animate-aurora,
+    .animate-pulse-ring,
     .dotted-flow {
       animation: none !important;
     }
