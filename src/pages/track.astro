@@ -1,0 +1,116 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Section from "@/components/ui/Section.astro";
+import Icon from "@/components/Icon.astro";
+import Pill from "@/components/ui/Pill.astro";
+import { buildMeta } from "@/lib/seo";
+
+/**
+ * /track — shows the public IP address (and rough location) the current
+ * visitor is accessing the site from. The site is statically generated, so
+ * the IP can't be known at build time; it's fetched client-side from a free,
+ * no-key IP service and rendered below.
+ */
+const meta = buildMeta({
+  title: "Access info",
+  description: "See the public IP address this site is being accessed from.",
+  path: "/track",
+});
+---
+
+<Layout meta={meta}>
+  <Section tone="transparent">
+    <div class="mx-auto max-w-2xl">
+      <Pill tone="cyan"><Icon name="map-pin" size={14} />Access info</Pill>
+      <h1 class="mt-4 text-3xl sm:text-4xl">Where you're accessing from</h1>
+      <p class="mt-3 text-lg text-ink-soft">
+        This is the public IP address and approximate location your connection is reaching the site from.
+      </p>
+
+      <div class="mt-8 rounded-card border border-hairline bg-white/80 p-6 shadow-soft backdrop-blur sm:p-8">
+        <!-- IP -->
+        <div class="flex items-center gap-4">
+          <span class="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-surface-cyan text-primary-deep ring-1 ring-primary/15">
+            <Icon name="map-pin" size={24} />
+          </span>
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-wide text-ink-soft">Your IP address</p>
+            <p id="ip" class="text-2xl font-bold tracking-tight text-ink">Detecting…</p>
+          </div>
+        </div>
+
+        <!-- Detail grid -->
+        <dl id="detail" class="mt-6 grid grid-cols-2 gap-x-6 gap-y-4 border-t border-hairline pt-6 text-sm">
+          <div>
+            <dt class="font-semibold text-ink-soft">Location</dt>
+            <dd data-field="location" class="mt-0.5 text-ink">—</dd>
+          </div>
+          <div>
+            <dt class="font-semibold text-ink-soft">Country</dt>
+            <dd data-field="country" class="mt-0.5 text-ink">—</dd>
+          </div>
+          <div>
+            <dt class="font-semibold text-ink-soft">ISP / Network</dt>
+            <dd data-field="isp" class="mt-0.5 text-ink">—</dd>
+          </div>
+          <div>
+            <dt class="font-semibold text-ink-soft">Timezone</dt>
+            <dd data-field="timezone" class="mt-0.5 text-ink">—</dd>
+          </div>
+          <div class="col-span-2">
+            <dt class="font-semibold text-ink-soft">Browser (user agent)</dt>
+            <dd data-field="ua" class="mt-0.5 break-words text-ink">—</dd>
+          </div>
+        </dl>
+
+        <p id="error" class="mt-5 hidden rounded-xl bg-rose-50 px-4 py-3 text-sm text-rose-700 ring-1 ring-rose-200"></p>
+      </div>
+
+      <p class="mt-4 text-xs text-ink-soft/70">
+        IP lookup is performed in your browser via a public IP service. We don't store this information.
+      </p>
+    </div>
+  </Section>
+
+  <script>
+    async function detect() {
+      const ipEl = document.getElementById("ip");
+      const errEl = document.getElementById("error");
+      const set = (field: string, value: string) => {
+        const el = document.querySelector(`[data-field="${field}"]`);
+        if (el) el.textContent = value || "—";
+      };
+
+      // User agent comes straight from the browser.
+      set("ua", navigator.userAgent);
+
+      try {
+        const res = await fetch("https://ipwho.is/");
+        if (!res.ok) throw new Error(`Lookup failed (${res.status})`);
+        const d = await res.json();
+        if (d.success === false) throw new Error(d.message || "Lookup failed");
+
+        if (ipEl) ipEl.textContent = d.ip ?? "Unknown";
+        set("location", [d.city, d.region].filter(Boolean).join(", "));
+        set("country", [d.country, d.country_code ? `(${d.country_code})` : ""].filter(Boolean).join(" "));
+        set("isp", d.connection?.isp ?? d.connection?.org ?? "—");
+        set("timezone", d.timezone?.id ?? "—");
+      } catch (err) {
+        // Fallback: at least show the IP.
+        try {
+          const res = await fetch("https://api.ipify.org?format=json");
+          const d = await res.json();
+          if (ipEl) ipEl.textContent = d.ip ?? "Unknown";
+        } catch {
+          if (ipEl) ipEl.textContent = "Unavailable";
+          if (errEl) {
+            errEl.textContent =
+              "Couldn't reach the IP lookup service. Check your connection or an ad/privacy blocker.";
+            errEl.classList.remove("hidden");
+          }
+        }
+      }
+    }
+    detect();
+  </script>
+</Layout>
