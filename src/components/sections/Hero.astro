@@ -10,11 +10,21 @@ const liveNames = LIVE_LOCALITIES.map((l) => l.name).join(" & ");
 ---
 
 <section class="relative overflow-hidden border-b border-hairline bg-surface-cream">
-  <!-- soft warm-to-cyan washes -->
+  <!-- Living aurora: slow drifting, brand-tinted blobs -->
   <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 h-80 bg-surface-cyan/40"></div>
   <div
     aria-hidden="true"
-    class="animate-floaty pointer-events-none absolute right-[-6rem] top-[-4rem] h-80 w-80 rounded-full bg-primary/30 blur-3xl"
+    class="animate-aurora pointer-events-none absolute right-[-6rem] top-[-4rem] h-80 w-80 rounded-full bg-primary/30 blur-3xl"
+  >
+  </div>
+  <div
+    aria-hidden="true"
+    class="animate-aurora pointer-events-none absolute left-[-8rem] top-[6rem] h-72 w-72 rounded-full bg-violet-400/20 blur-3xl [animation-delay:-6s]"
+  >
+  </div>
+  <div
+    aria-hidden="true"
+    class="animate-aurora pointer-events-none absolute bottom-[-6rem] right-[18%] h-72 w-72 rounded-full bg-trust/15 blur-3xl [animation-delay:-12s]"
   >
   </div>
 
@@ -67,7 +77,7 @@ const liveNames = LIVE_LOCALITIES.map((l) => l.name).join(" & ");
         class="pointer-events-none absolute inset-0 mx-auto max-w-md rounded-[3rem] bg-primary/35 blur-3xl"
       >
       </div>
-      <picture class="relative mx-auto block w-full max-w-md">
+      <picture data-parallax="-0.06" class="relative mx-auto block w-full max-w-md will-change-transform">
         <source srcset="/hero-professional.webp" type="image/webp" />
         <img
           src="/hero-professional.jpg"

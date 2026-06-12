@@ -44,7 +44,8 @@ const TILES = [
               href={`/${service.slug}/${CITY.slug}`}
               class="group block h-full focus-visible:outline-none"
             >
-              <article class="flex h-full flex-col rounded-card border border-white/10 bg-white/[0.04] p-6 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08),0_18px_40px_-24px_rgba(0,0,0,0.85)] backdrop-blur-sm transition-all duration-200 group-hover:-translate-y-0.5 group-hover:border-primary/40 group-hover:bg-white/[0.06] group-hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.14),0_24px_48px_-20px_rgba(0,0,0,0.95)]">
+              <article data-spotlight class="spotlight relative isolate flex h-full flex-col overflow-hidden rounded-card border border-white/10 bg-white/[0.04] p-6 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08),0_18px_40px_-24px_rgba(0,0,0,0.85)] backdrop-blur-sm transition-all duration-200 group-hover:border-primary/40 group-hover:bg-white/[0.06] group-hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.14),0_24px_48px_-20px_rgba(0,0,0,0.95)]">
+                <span aria-hidden="true" class="spotlight-glow pointer-events-none absolute inset-0 -z-10 rounded-card"></span>
                 {service.image ? (
                   <span class="mb-4 inline-flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl bg-white/10 ring-1 ring-white/15">
                     <img

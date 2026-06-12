@@ -138,10 +138,49 @@
     }
   }
 
+  /* ---- Drifting aurora blobs (living hero background) ---- */
+  @keyframes aurora {
+    0% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    33% {
+      transform: translate3d(4%, -3%, 0) scale(1.08);
+    }
+    66% {
+      transform: translate3d(-3%, 4%, 0) scale(0.96);
+    }
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+  }
+  .animate-aurora {
+    animation: aurora 18s ease-in-out infinite;
+  }
+
+  /* ---- Cursor spotlight + 3D tilt cards ----
+     Card sets [data-spotlight] + class "spotlight" and contains a
+     <span class="spotlight-glow">. JS feeds --mx/--my and the tilt transform. */
+  .spotlight {
+    transform-style: preserve-3d;
+  }
+  .spotlight-glow {
+    background: radial-gradient(
+      240px circle at var(--mx, 50%) var(--my, 50%),
+      var(--spot, rgba(255, 255, 255, 0.12)),
+      transparent 60%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .spotlight:hover .spotlight-glow {
+    opacity: 1;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .animate-marquee,
     .animate-floaty,
     .animate-phone-float,
+    .animate-aurora,
     .dotted-flow {
       animation: none !important;
     }
