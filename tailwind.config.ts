@@ -25,8 +25,8 @@ const config: Config = {
         surface: {
           DEFAULT: "#FFFFFF",
           cyan: "#ECFEFF", // cyan-50 tint section
-          slate: "#FAF7F2", // warm cream tint section (vastyn-style warmth)
-          cream: "#FDFAF6", // softer warm wash (hero)
+          slate: "#F2FAFB", // cool light tint for muted surfaces (cyan-aligned)
+          cream: "#F6FCFD", // soft cool wash
           dark: "#0B1120", // near-black section background
           "dark-2": "#111A2E", // raised card on dark sections
         },

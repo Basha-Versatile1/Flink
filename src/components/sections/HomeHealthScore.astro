@@ -1,0 +1,111 @@
+---
+import Section from "@/components/ui/Section.astro";
+import SectionHeading from "@/components/ui/SectionHeading.astro";
+import Reveal from "@/components/ui/Reveal.astro";
+import Icon from "@/components/Icon.astro";
+import Button from "@/components/ui/Button.astro";
+import type { IconName } from "@/lib/icons";
+
+// The three report dimensions (unique to this feature — left column).
+const DIMENSIONS: { icon: IconName; name: string; body: string; soon?: boolean }[] = [
+  { icon: "sparkles", name: "Cleanliness", body: "Your average score across every room in the home." },
+  { icon: "shield", name: "Hygiene", body: "Kitchen and bathrooms, weighted higher for health." },
+  { icon: "repeat", name: "Maintenance", body: "Repairs and pest checks.", soon: true },
+];
+
+// Mock per-room scores for the preview (cyan bars — no traffic-light colours).
+const ROOMS: { name: string; score: number }[] = [
+  { name: "Kitchen", score: 74 },
+  { name: "Bathroom", score: 81 },
+  { name: "Bedroom", score: 92 },
+];
+
+const SCORE = 82;
+---
+
+<Section id="home-health-score" tone="white" class="relative overflow-hidden">
+  <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+    <!-- Left: copy + report dimensions -->
+    <div>
+      <SectionHeading
+        eyebrow="AI-powered · New"
+        title="Your home's health,"
+        accent="scored in real time"
+        intro="Add your rooms once. Every time you book a clean, Flink's AI updates a cleanliness score for each room — and your whole home. We nudge you before things slip, and recommend exactly what to book next."
+        align="left"
+      />
+
+      <dl class="mt-8 space-y-5">
+        {
+          DIMENSIONS.map((d) => (
+            <Reveal as="div" class="flex items-start gap-3.5 border-t border-hairline pt-5">
+              <Icon name={d.icon} size={22} class="mt-0.5 shrink-0 text-primary" />
+              <div>
+                <dt class="font-semibold text-ink">
+                  {d.name}
+                  {d.soon && (
+                    <span class="ml-2 align-middle text-xs font-semibold uppercase tracking-wide text-ink-soft">
+                      Coming soon
+                    </span>
+                  )}
+                </dt>
+                <dd class="mt-0.5 text-sm text-ink-soft">{d.body}</dd>
+              </div>
+            </Reveal>
+          ))
+        }
+      </dl>
+    </div>
+
+    <!-- Right: flat, editorial score panel -->
+    <Reveal>
+      <div class="mx-auto max-w-md rounded-card border border-hairline bg-white p-6 shadow-soft sm:p-7">
+        <p class="text-sm font-semibold uppercase tracking-wide text-primary-deep">
+          Home Health Score
+        </p>
+
+        <!-- Big editorial score -->
+        <div class="mt-3 flex items-end gap-3">
+          <span class="text-[5.5rem] font-bold leading-[0.85] tracking-tight text-ink tabular-nums">
+            {SCORE}
+          </span>
+          <span class="pb-2 text-xl font-medium text-ink-soft">/ 100</span>
+          <span class="mb-2 ml-auto inline-flex items-center gap-1.5 rounded-pill bg-surface-cyan px-3 py-1 text-xs font-semibold text-primary-deep ring-1 ring-primary/20">
+            Good
+          </span>
+        </div>
+        <div class="mt-4 h-2.5 overflow-hidden rounded-full bg-primary/10">
+          <div class="h-full rounded-full bg-primary" style={`width:${SCORE}%`}></div>
+        </div>
+        <p class="mt-2 text-xs text-ink-soft">Last updated 2 days ago</p>
+
+        <!-- Per-room scores -->
+        <div class="mt-6 space-y-4 border-t border-hairline pt-6">
+          {
+            ROOMS.map((room) => (
+              <div>
+                <div class="flex items-baseline justify-between text-sm">
+                  <span class="font-medium text-ink">{room.name}</span>
+                  <span class="font-semibold tabular-nums text-primary-deep">{room.score}</span>
+                </div>
+                <div class="mt-1.5 h-1.5 overflow-hidden rounded-full bg-primary/10">
+                  <div class="h-full rounded-full bg-primary" style={`width:${room.score}%`} />
+                </div>
+              </div>
+            ))
+          }
+        </div>
+
+        <!-- Recommendation nudge -->
+        <div class="mt-6 flex items-center gap-3 rounded-2xl bg-surface-cyan px-4 py-3 ring-1 ring-primary/15">
+          <Icon name="sparkles" size={18} class="shrink-0 text-primary-deep" />
+          <div class="flex-1">
+            <p class="text-sm font-semibold text-ink">Kitchen due for a clean</p>
+            <p class="text-xs text-ink-soft">Based on your last booking 12 days ago</p>
+          </div>
+          <Button href="#download" size="md">Book</Button>
+        </div>
+      </div>
+    </Reveal>
+  </div>
+</Section>

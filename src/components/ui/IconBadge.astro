@@ -18,20 +18,20 @@ const { tone = "cyan", onDark = false, class: className } = Astro.props;
 
 const light: Record<BadgeTone, string> = {
   cyan: "bg-surface-cyan text-primary-deep ring-primary/15",
-  violet: "bg-violet-50 text-violet-700 ring-violet-500/15",
-  amber: "bg-amber-50 text-amber-700 ring-amber-500/15",
-  emerald: "bg-emerald-50 text-emerald-700 ring-emerald-500/15",
-  rose: "bg-rose-50 text-rose-700 ring-rose-500/15",
-  blue: "bg-blue-50 text-blue-700 ring-blue-500/15",
+  violet: "bg-surface-cyan text-primary-deep ring-primary/15",
+  amber: "bg-surface-cyan text-primary-deep ring-primary/15",
+  emerald: "bg-surface-cyan text-primary-deep ring-primary/15",
+  rose: "bg-surface-cyan text-primary-deep ring-primary/15",
+  blue: "bg-surface-cyan text-primary-deep ring-primary/15",
 };
 
 const dark: Record<BadgeTone, string> = {
   cyan: "bg-primary/15 text-primary-light ring-primary/25",
-  violet: "bg-violet-500/15 text-violet-300 ring-violet-400/25",
-  amber: "bg-amber-500/15 text-amber-300 ring-amber-400/25",
-  emerald: "bg-emerald-500/15 text-emerald-300 ring-emerald-400/25",
-  rose: "bg-rose-500/15 text-rose-300 ring-rose-400/25",
-  blue: "bg-blue-500/15 text-blue-300 ring-blue-400/25",
+  violet: "bg-primary/15 text-primary-light ring-primary/25",
+  amber: "bg-primary/15 text-primary-light ring-primary/25",
+  emerald: "bg-primary/15 text-primary-light ring-primary/25",
+  rose: "bg-primary/15 text-primary-light ring-primary/25",
+  blue: "bg-primary/15 text-primary-light ring-primary/25",
 };
 ---
 

@@ -8,6 +8,7 @@ import HowItWorks from "@/components/sections/HowItWorks.astro";
 import WhyFlink from "@/components/sections/WhyFlink.astro";
 import AppShowcase from "@/components/sections/AppShowcase.astro";
 import IncludedComparison from "@/components/sections/IncludedComparison.astro";
+import HomeHealthScore from "@/components/sections/HomeHealthScore.astro";
 import Pricing from "@/components/sections/Pricing.astro";
 import AreasServed from "@/components/sections/AreasServed.astro";
 import Testimonials from "@/components/sections/Testimonials.astro";
@@ -31,13 +32,14 @@ const meta = buildMeta({
   <Hero />
   <StatsBand />
   <ServicesGrid />
-  <HowItWorks />
+  <HomeHealthScore />
+  <HowItWorks compact />
   <WhyFlink />
+  <Testimonials />
   <AppShowcase />
   <IncludedComparison />
   <Pricing />
   <AreasServed />
-  <Testimonials />
   <Faq />
   <ClosingCta />
 </Layout>

@@ -57,10 +57,10 @@ const meta = buildMeta({
   />
 
   <!-- Hero -->
-  <section class="relative overflow-hidden bg-gradient-to-b from-surface-cyan to-white">
+  <section class="relative overflow-hidden bg-surface-cyan">
     <!-- Living aurora wash -->
     <div aria-hidden="true" class="animate-aurora pointer-events-none absolute right-[-6rem] top-[-6rem] h-80 w-80 rounded-full bg-primary/25 blur-3xl"></div>
-    <div aria-hidden="true" class="animate-aurora pointer-events-none absolute left-[-8rem] top-1/3 h-72 w-72 rounded-full bg-violet-400/15 blur-3xl [animation-delay:-7s]"></div>
+    <div aria-hidden="true" class="animate-aurora pointer-events-none absolute left-[-8rem] top-1/3 h-72 w-72 rounded-full bg-primary/15 blur-3xl [animation-delay:-7s]"></div>
 
     <div class="container-px relative grid items-center gap-12 py-14 sm:py-20 lg:grid-cols-2">
       <div class="max-w-xl">
@@ -101,20 +101,19 @@ const meta = buildMeta({
           <div aria-hidden="true" class="animate-pulse-ring absolute h-64 w-64 rounded-full ring-2 ring-primary/30"></div>
 
           <!-- Central glossy gradient tile with the service icon -->
-          <div class="animate-floaty relative flex h-44 w-44 items-center justify-center rounded-[2.2rem] bg-gradient-to-br from-primary to-primary-light text-white shadow-[0_30px_60px_-20px_rgba(6,182,212,0.7),inset_0_2px_0_0_rgba(255,255,255,0.45)]">
+          <div class="animate-floaty relative flex h-44 w-44 items-center justify-center rounded-[2.2rem] bg-primary text-white shadow-lift">
             <Icon name={service.icon as IconName} size={68} />
-            <span aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 h-1/2 rounded-t-[2.2rem] bg-gradient-to-b from-white/35 to-transparent"></span>
           </div>
 
           <!-- Floating glossy feature chips orbiting the tile -->
           <div class="animate-phone-float absolute left-1 top-10 flex items-center gap-1.5 rounded-pill border border-hairline bg-white/90 px-3 py-1.5 text-xs font-semibold text-ink shadow-lift backdrop-blur">
-            <Icon name="shield" size={14} class="text-trust" />Verified pro
+            <Icon name="shield" size={14} class="text-primary" />Verified pro
           </div>
           <div class="animate-phone-float absolute right-0 top-1/3 flex items-center gap-1.5 rounded-pill border border-hairline bg-white/90 px-3 py-1.5 text-xs font-semibold text-ink shadow-lift backdrop-blur [animation-delay:0.8s]">
             <Icon name="clock" size={14} class="text-primary-deep" />{service.typicalDuration}
           </div>
           <div class="animate-phone-float absolute bottom-8 left-6 flex items-center gap-1.5 rounded-pill border border-hairline bg-white/90 px-3 py-1.5 text-xs font-semibold text-ink shadow-lift backdrop-blur [animation-delay:1.5s]">
-            <span class="inline-block h-2 w-2 rounded-full bg-trust"></span>{service.pricePerHour}
+            <span class="inline-block h-2 w-2 rounded-full bg-primary"></span>{service.pricePerHour}
           </div>
         </div>
       </Reveal>
@@ -131,7 +130,7 @@ const meta = buildMeta({
     <div class="mx-auto mt-12 grid max-w-4xl gap-5 md:grid-cols-2">
       <Card>
         <h3 class="flex items-center gap-2 text-lg">
-          <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-trust text-white">
+          <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary text-white">
             <Icon name="check" size={16} />
           </span>
           Included
@@ -139,7 +138,7 @@ const meta = buildMeta({
         <ul class="mt-5 space-y-3">
           {service.includes.map((item) => (
             <li class="flex items-start gap-3 text-sm text-ink-soft">
-              <Icon name="check" size={18} class="mt-0.5 shrink-0 text-trust" />{item}
+              <Icon name="check" size={18} class="mt-0.5 shrink-0 text-primary" />{item}
             </li>
           ))}
         </ul>

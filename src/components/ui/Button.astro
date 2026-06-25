@@ -23,11 +23,11 @@ const base =
   "group/btn relative isolate overflow-hidden inline-flex items-center justify-center gap-2 rounded-pill font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none";
 
 const variants = {
-  // Glossy convex pill: light→deep gradient + inset top highlight + glow.
+  // Flat cyan pill.
   primary:
-    "bg-gradient-to-b from-primary-light to-primary text-white shadow-[0_6px_18px_-6px_rgba(6,182,212,0.55),inset_0_1px_0_0_rgba(255,255,255,0.45)] hover:from-primary hover:to-primary-hover hover:-translate-y-0.5 hover:shadow-[0_14px_28px_-8px_rgba(6,182,212,0.6),inset_0_1px_0_0_rgba(255,255,255,0.5)]",
+    "bg-primary text-white shadow-soft hover:bg-primary-hover hover:-translate-y-0.5 hover:shadow-lift",
   secondary:
-    "bg-gradient-to-b from-white to-slate-50 text-ink ring-1 ring-hairline shadow-[0_2px_8px_-4px_rgba(15,23,42,0.12),inset_0_1px_0_0_rgba(255,255,255,0.9)] hover:ring-primary hover:text-primary-deep hover:-translate-y-0.5 hover:shadow-lift",
+    "bg-white text-ink ring-1 ring-hairline shadow-soft hover:ring-primary hover:text-primary-deep hover:-translate-y-0.5 hover:shadow-lift",
   ghost: "bg-transparent text-primary-deep hover:bg-surface-cyan",
 } as const;
 
@@ -37,28 +37,15 @@ const sizes = {
 } as const;
 
 const classes = cn(base, variants[variant], sizes[size], className);
-const glossy = variant !== "ghost";
 ---
 
 {
   href ? (
     <a href={href} class={classes} {...rest}>
-      {glossy && (
-        <>
-          <span aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-1/2 rounded-t-pill bg-gradient-to-b from-white/30 to-transparent" />
-          <span aria-hidden="true" class="pointer-events-none absolute inset-y-0 -left-1/3 -z-10 w-1/3 -skew-x-12 bg-gradient-to-r from-transparent via-white/40 to-transparent transition-transform duration-700 ease-out motion-safe:group-hover/btn:translate-x-[400%]" />
-        </>
-      )}
       <slot />
     </a>
   ) : (
     <button type={type} class={classes} {...rest}>
-      {glossy && (
-        <>
-          <span aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-1/2 rounded-t-pill bg-gradient-to-b from-white/30 to-transparent" />
-          <span aria-hidden="true" class="pointer-events-none absolute inset-y-0 -left-1/3 -z-10 w-1/3 -skew-x-12 bg-gradient-to-r from-transparent via-white/40 to-transparent transition-transform duration-700 ease-out motion-safe:group-hover/btn:translate-x-[400%]" />
-        </>
-      )}
       <slot />
     </button>
   )

@@ -73,7 +73,7 @@ const inputCls = cn(
     )
   }
 
-  <p class={cn("lead-error mt-2 hidden text-sm", onDark ? "text-white" : "text-red-600")} role="alert">
+  <p class={cn("lead-error mt-2 hidden text-sm font-medium", onDark ? "text-white" : "text-ink")} role="alert">
     Please add a valid phone number{compact ? "" : ", name and locality"}, then try again.
   </p>
   {
@@ -84,8 +84,8 @@ const inputCls = cn(
     )
   }
 
-  <div class={cn("lead-success hidden items-center gap-3 rounded-card p-5", onDark ? "bg-white/15 text-white" : "bg-trust/10 text-ink")} role="status">
-    <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-trust text-white">
+  <div class={cn("lead-success hidden items-center gap-3 rounded-card p-5", onDark ? "bg-white/15 text-white" : "bg-surface-cyan text-ink")} role="status">
+    <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary text-white">
       <Icon name="check" size={20} />
     </span>
     <p class="text-sm font-medium">

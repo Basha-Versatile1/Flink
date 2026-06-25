@@ -10,20 +10,20 @@ import { CITY } from "@/data/localities";
 // Gradient icon tiles (multi-hue, with a coloured glow). Literal strings so
 // Tailwind's JIT keeps every class.
 const TILES = [
-  "bg-gradient-to-br from-primary to-primary-light shadow-[0_10px_24px_-8px_rgba(6,182,212,0.75),inset_0_1px_0_0_rgba(255,255,255,0.4)]",
-  "bg-gradient-to-br from-violet-500 to-violet-400 shadow-[0_10px_24px_-8px_rgba(124,58,237,0.7),inset_0_1px_0_0_rgba(255,255,255,0.4)]",
-  "bg-gradient-to-br from-amber-500 to-amber-400 shadow-[0_10px_24px_-8px_rgba(217,119,6,0.7),inset_0_1px_0_0_rgba(255,255,255,0.4)]",
-  "bg-gradient-to-br from-emerald-500 to-emerald-400 shadow-[0_10px_24px_-8px_rgba(5,150,105,0.7),inset_0_1px_0_0_rgba(255,255,255,0.4)]",
-  "bg-gradient-to-br from-blue-500 to-blue-400 shadow-[0_10px_24px_-8px_rgba(37,99,235,0.7),inset_0_1px_0_0_rgba(255,255,255,0.4)]",
-  "bg-gradient-to-br from-rose-500 to-rose-400 shadow-[0_10px_24px_-8px_rgba(225,29,72,0.7),inset_0_1px_0_0_rgba(255,255,255,0.4)]",
+  "bg-primary",
+  "bg-primary",
+  "bg-primary",
+  "bg-primary",
+  "bg-primary",
+  "bg-primary",
 ];
 ---
 
-<Section id="services" tone="dark" class="relative overflow-hidden">
+<Section id="services" tone="cyan" class="relative overflow-hidden">
   <!-- Soft cyan glow behind the heading -->
   <div
     aria-hidden="true"
-    class="pointer-events-none absolute left-1/2 top-0 h-72 w-[44rem] max-w-full -translate-x-1/2 rounded-full bg-primary/15 blur-[100px]"
+    class="pointer-events-none absolute left-1/2 top-0 h-72 w-[44rem] max-w-full -translate-x-1/2 rounded-full bg-primary/10 blur-[100px]"
   >
   </div>
 
@@ -33,7 +33,6 @@ const TILES = [
       title="Cleaning services for"
       accent="every corner of your home"
       intro="Pick a single task or reset the whole place. Every visit is handled by a trained Flink professional."
-      onDark
     />
 
     <ul class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -44,36 +43,40 @@ const TILES = [
               href={`/${service.slug}/${CITY.slug}`}
               class="group block h-full focus-visible:outline-none"
             >
-              <article data-spotlight class="spotlight relative isolate flex h-full flex-col overflow-hidden rounded-card border border-white/10 bg-white/[0.04] p-6 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08),0_18px_40px_-24px_rgba(0,0,0,0.85)] backdrop-blur-sm transition-all duration-200 group-hover:border-primary/40 group-hover:bg-white/[0.06] group-hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.14),0_24px_48px_-20px_rgba(0,0,0,0.95)]">
-                <span aria-hidden="true" class="spotlight-glow pointer-events-none absolute inset-0 -z-10 rounded-card"></span>
+              <article class="relative isolate flex h-full flex-col overflow-hidden rounded-card border border-hairline bg-white shadow-soft transition-all duration-200 group-hover:border-primary/40 group-hover:shadow-lift">
                 {service.image ? (
-                  <span class="mb-4 inline-flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl bg-white/10 ring-1 ring-white/15">
+                  <div class="relative aspect-[16/10] w-full overflow-hidden bg-surface-cyan">
                     <img
                       src={service.image}
-                      alt=""
-                      width="96"
-                      height="96"
-                      class="h-10 w-10 object-contain"
+                      alt={`${service.name} by a Flink professional`}
+                      width="1000"
+                      height="625"
+                      class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.04]"
                       loading="lazy"
                     />
-                  </span>
+                    <span aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/45 to-transparent"></span>
+                  </div>
                 ) : (
-                  <span
-                    class={`mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl text-white ${TILES[i % TILES.length]}`}
-                  >
-                    <Icon name={service.icon as any} size={22} />
-                  </span>
+                  <div class="flex aspect-[16/10] w-full items-center justify-center bg-surface-cyan">
+                    <span
+                      class={`inline-flex h-14 w-14 items-center justify-center rounded-2xl text-white ${TILES[i % TILES.length]}`}
+                    >
+                      <Icon name={service.icon as any} size={26} />
+                    </span>
+                  </div>
                 )}
-                <h3 class="text-lg font-semibold text-white">{service.name}</h3>
-                <p class="mt-2 flex-1 text-sm text-white/60">{service.tagline}</p>
-                <span class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary-light">
-                  Book in {CITY.name}
-                  <Icon
-                    name="arrow-right"
-                    size={16}
-                    class="transition-transform group-hover:translate-x-0.5"
-                  />
-                </span>
+                <div class="flex flex-1 flex-col p-6">
+                  <h3 class="text-lg font-semibold text-ink">{service.name}</h3>
+                  <p class="mt-2 flex-1 text-sm text-ink-soft">{service.tagline}</p>
+                  <span class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary-deep">
+                    Book in {CITY.name}
+                    <Icon
+                      name="arrow-right"
+                      size={16}
+                      class="transition-transform group-hover:translate-x-0.5"
+                    />
+                  </span>
+                </div>
               </article>
             </a>
           </Reveal>

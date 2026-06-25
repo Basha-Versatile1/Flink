@@ -6,20 +6,19 @@ import Reveal from "@/components/ui/Reveal.astro";
 import { INCLUDED, NOT_INCLUDED } from "@/data/site";
 ---
 
-<Section id="whats-included" tone="dark">
+<Section id="whats-included" tone="white">
   <SectionHeading
     eyebrow="What to expect"
     title="What's included —"
     accent="and what's not"
     intro="We keep the scope clear so there are no surprises when your professional arrives."
-    onDark
   />
 
   <div class="mx-auto mt-12 grid max-w-4xl gap-5 md:grid-cols-2">
     <Reveal>
       <div class="h-full rounded-card bg-surface-cyan p-6 ring-1 ring-primary/15">
         <h3 class="flex items-center gap-2 text-lg text-ink">
-          <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-trust text-white">
+          <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary text-white">
             <Icon name="check" size={16} />
           </span>
           Included in a visit
@@ -28,7 +27,7 @@ import { INCLUDED, NOT_INCLUDED } from "@/data/site";
           {
             INCLUDED.map((item) => (
               <li class="flex items-start gap-3 text-sm text-ink-soft">
-                <Icon name="check" size={18} class="mt-0.5 shrink-0 text-trust" />
+                <Icon name="check" size={18} class="mt-0.5 shrink-0 text-primary" />
                 {item}
               </li>
             ))
