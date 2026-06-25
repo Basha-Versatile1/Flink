@@ -1,5 +1,5 @@
 /**
- * Services — the 7 confirmed basic household-cleaning offerings (§1).
+ * Services — the confirmed basic household-cleaning offerings (§1).
  * Add a new service by appending an entry; the grid, service pages, sitemap,
  * and header dropdown all render from this array automatically.
  *
@@ -40,6 +40,7 @@ export const SERVICES: Service[] = [
     description:
       "A thorough bathroom clean that tackles tiles, fittings, mirrors, and floors. Our trained professional descales, scrubs, and sanitises so the room feels genuinely fresh — not just wiped over.",
     icon: "shower",
+    image: "/services/bathroom-cleaning.jpg",
     typicalDuration: "30–60 min",
     pricePerHour: "[₹XX/hr]",
     pricePerTask: "[₹XX/task]",
@@ -62,6 +63,7 @@ export const SERVICES: Service[] = [
     description:
       "Dusting, surface cleaning, and floor care for a restful bedroom. We work around your furniture, reach the spots that get missed, and leave the room tidy and allergen-light.",
     icon: "bed",
+    image: "/services/bedroom-cleaning.jpg",
     typicalDuration: "20–45 min",
     pricePerHour: "[₹XX/hr]",
     pricePerTask: "[₹XX/task]",
@@ -84,6 +86,7 @@ export const SERVICES: Service[] = [
     description:
       "A practical kitchen clean focused on the surfaces you use every day. We degrease the hob and counters, clean the sink, and wipe exterior cabinet faces so cooking starts on a clean slate.",
     icon: "chef",
+    image: "/services/kitchen-cleaning.jpg",
     typicalDuration: "30–60 min",
     pricePerHour: "[₹XX/hr]",
     pricePerTask: "[₹XX/task]",
@@ -106,6 +109,7 @@ export const SERVICES: Service[] = [
     description:
       "Hand-washing of your dishes, cookware, and utensils, then dried and stacked neatly. Ideal after a big cook-up or for a daily helping hand.",
     icon: "utensils",
+    image: "/services/utensil-cleaning.jpg",
     typicalDuration: "15–30 min",
     pricePerHour: "[₹XX/hr]",
     pricePerTask: "[₹XX/task]",
@@ -122,34 +126,13 @@ export const SERVICES: Service[] = [
     ],
   },
   {
-    slug: "vacuuming",
-    name: "Vacuuming",
-    tagline: "Carpets, rugs, and upholstery, dust-free.",
-    description:
-      "Vacuuming of floors, rugs, and soft furnishings to lift dust, hair, and grit. A quick, effective refresh for living areas and bedrooms alike.",
-    icon: "wind",
-    typicalDuration: "20–40 min",
-    pricePerHour: "[₹XX/hr]",
-    pricePerTask: "[₹XX/task]",
-    includes: [
-      "Floor and carpet vacuuming",
-      "Rug and mat cleaning",
-      "Sofa and upholstery surface vacuum",
-      "Edges and corners",
-    ],
-    excludes: [
-      "Wet shampoo / steam extraction",
-      "Stain treatment",
-      "Mattress deep-clean",
-    ],
-  },
-  {
     slug: "sweeping-mopping",
     name: "Sweeping & Mopping",
     tagline: "Floors swept and mopped to a clean shine.",
     description:
       "Classic dry-sweep followed by a wet mop across your hard floors. Quick to book, great as a daily or alternate-day refresh for the whole home.",
     icon: "broom",
+    image: "/services/sweeping-mopping.jpg",
     typicalDuration: "20–40 min",
     pricePerHour: "[₹XX/hr]",
     pricePerTask: "[₹XX/task]",
@@ -172,6 +155,7 @@ export const SERVICES: Service[] = [
     description:
       "Our most complete option — bedrooms, bathrooms, kitchen, and common areas all cleaned in one visit by a trained professional. The easiest way to reset your entire home.",
     icon: "home",
+    image: "/services/whole-home-cleaning.jpg",
     typicalDuration: "1.5–3 hrs",
     pricePerHour: "[₹XX/hr]",
     pricePerTask: "[₹XX/task]",
