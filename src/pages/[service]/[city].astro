@@ -91,18 +91,31 @@ const meta = buildMeta({
       </div>
 
       <Reveal class="flex justify-center">
-        <!-- Animated service showcase (TODO: swap for real photography when available) -->
+        <!-- Animated service showcase — real service photo with orbiting chips -->
         <div class="relative mx-auto flex aspect-square w-full max-w-sm items-center justify-center">
           <!-- Aurora glow -->
-          <div aria-hidden="true" class="animate-aurora absolute inset-6 rounded-full bg-primary/30 blur-3xl"></div>
+          <div aria-hidden="true" class="animate-aurora absolute inset-6 rounded-full bg-primary/25 blur-3xl"></div>
 
           <!-- Radar pulse rings (available near you) -->
-          <div aria-hidden="true" class="absolute h-64 w-64 rounded-full ring-1 ring-primary/15"></div>
-          <div aria-hidden="true" class="animate-pulse-ring absolute h-64 w-64 rounded-full ring-2 ring-primary/30"></div>
+          <div aria-hidden="true" class="absolute h-72 w-72 rounded-full ring-1 ring-primary/15"></div>
+          <div aria-hidden="true" class="animate-pulse-ring absolute h-72 w-72 rounded-full ring-2 ring-primary/25"></div>
 
-          <!-- Central glossy gradient tile with the service icon -->
-          <div class="animate-floaty relative flex h-44 w-44 items-center justify-center rounded-[2.2rem] bg-primary text-white shadow-lift">
-            <Icon name={service.icon as IconName} size={68} />
+          <!-- Central service photo -->
+          <div class="animate-floaty relative h-60 w-60 overflow-hidden rounded-[2.2rem] shadow-lift ring-1 ring-white/70 sm:h-64 sm:w-64">
+            {service.image ? (
+              <img
+                src={service.image}
+                alt={`${service.name} by a trained Flink professional`}
+                width="600"
+                height="600"
+                class="h-full w-full object-cover"
+                loading="eager"
+              />
+            ) : (
+              <div class="flex h-full w-full items-center justify-center bg-primary text-white">
+                <Icon name={service.icon as IconName} size={68} />
+              </div>
+            )}
           </div>
 
           <!-- Floating glossy feature chips orbiting the tile -->
